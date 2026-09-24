@@ -1,28 +1,17 @@
-import styled from 'styled-components'
+import { Header } from '../../components/Header/Header'
+import { Hero } from '../../components/Hero/Hero'
 
+/**
+ * Landing page da GCP Corp. As demais seções entram abaixo do hero,
+ * na ordem em que aparecem no site.
+ */
 export function Home() {
   return (
-    <Container>
-      <Title>Gcpcorp</Title>
-      <Subtitle>Aplicação web em React + TypeScript pronta para começar.</Subtitle>
-    </Container>
+    <>
+      <Header />
+      <main>
+        <Hero />
+      </main>
+    </>
   )
 }
-
-const Container = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 2rem;
-  text-align: center;
-`
-
-const Title = styled.h1`
-  margin: 0 0 0.5rem;
-`
-
-const Subtitle = styled.p`
-  margin: 0;
-`
