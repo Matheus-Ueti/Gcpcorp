@@ -1,6 +1,13 @@
 # Project context doc (local reference only)
 PROJECT_CONTEXT.md
 
+# Fonte Qurova: os arquivos atuais são a versão DEMO, licenciada só para uso
+# pessoal ("No commercial use allowed"). Ficam fora do repositório para não
+# serem publicados no site da empresa. Ao comprar a licença comercial (com uso
+# em web) em https://prioritypeco.com/product/qurova-logo-font/, troque os
+# arquivos pelos licenciados e apague esta linha para versioná-los.
+public/fonts/qurova/
+
 # Logs
 logs
 *.log

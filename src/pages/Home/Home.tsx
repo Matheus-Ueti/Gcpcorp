@@ -1,3 +1,6 @@
+import styled from 'styled-components'
+import { AboutSection } from '../../components/AboutSection/AboutSection'
+import { EcosystemSection } from '../../components/EcosystemSection/EcosystemSection'
 import { Footer } from '../../components/Footer/Footer'
 import { Header } from '../../components/Header/Header'
 import { Hero } from '../../components/Hero/Hero'
@@ -9,12 +12,26 @@ export function Home() {
   return (
     <>
       <Header />
-      <main>
+      <Main>
         <Hero />
+        <AboutSection />
+        <EcosystemSection />
         <SolutionsGrid />
         <MetricsSection />
-      </main>
+      </Main>
       <Footer />
     </>
   )
 }
+
+/* ── Estilos ─────────────────────────────────────────────────────────────── */
+
+/**
+ * O anel do hero vaza pela borda direita da página. `clip` (e não `hidden`)
+ * corta essa sobra sem transformar o <main> num container de rolagem: não
+ * surge barra horizontal e o anel continua livre para vazar para baixo, por
+ * cima do card da seção "Sobre".
+ */
+const Main = styled.main`
+  overflow-x: clip;
+`

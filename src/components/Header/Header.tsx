@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import logoGcpcorp from '../../assets/logo-gcpcorp.svg'
@@ -11,6 +10,7 @@ import {
   StoreIcon,
   UsersIcon,
 } from '../icons/Icons'
+import { PartnerBadge } from '../PartnerBadge/PartnerBadge'
 import type { Language, LanguageButtonProps } from '../../types'
 
 const LANGUAGES: Language[] = ['pt', 'en', 'es']
@@ -28,40 +28,6 @@ const SOCIAL_ICONS = [
   { key: 'instagram', href: 'https://www.instagram.com/', Icon: InstagramIcon },
 ] as const
 
-/**
- * Selo oficial "Google Cloud Partner".
- *
- * O arquivo não está no repositório porque o Google distribui esse selo apenas
- * pelo portal Partner Advantage (login de parceiro) — ele não é publicado
- * abertamente. Basta salvar o SVG em `public/google-cloud-partner.svg` que o
- * selo aparece sozinho, sem precisar mexer no código.
- */
-const PARTNER_BADGE_SRC = '/google-cloud-partner.svg'
-
-/**
- * Enquanto o arquivo do selo não existir, esconde o slot (divisor incluído) em
- * vez de deixar o ícone de imagem quebrada no cabeçalho.
- */
-function PartnerBadge() {
-  const { t } = useTranslation()
-  const [isAvailable, setIsAvailable] = useState(true)
-
-  if (!isAvailable) {
-    return null
-  }
-
-  return (
-    <>
-      <BrandDivider aria-hidden="true" />
-      <BadgeImage
-        src={PARTNER_BADGE_SRC}
-        alt={t('header.partnerBadgeAlt')}
-        onError={() => setIsAvailable(false)}
-      />
-    </>
-  )
-}
-
 /** Cabeçalho fixo: logo, menu principal, redes sociais e troca de idioma. */
 export function Header() {
   const { t, i18n } = useTranslation()
@@ -74,7 +40,7 @@ export function Header() {
           <Brand href="#inicio">
             <Logo src={logoGcpcorp} alt={t('header.logoAlt')} />
           </Brand>
-          <PartnerBadge />
+          <PartnerBadge height="2rem" />
         </BrandArea>
 
         <Nav aria-label={t('header.mainNav')}>
@@ -135,11 +101,19 @@ const Wrapper = styled.header`
   z-index: 10;
 `
 
+/*
+ * Logo + selo Partner, menu e ações precisam caber numa linha só na largura de
+ * design (container de 1152px), como no layout — em TODOS os idiomas. O mais
+ * longo é o espanhol ("Sobre nosotros", "Soluciones", "Contacto"): medido no
+ * navegador, sobram ~22px nele (e ~80px em PT/EN). Por isso os espaços do menu
+ * e da marca são enxutos; ao mexer neles ou nos rótulos, confira o espanhol.
+ * Abaixo da largura de design, os grupos quebram linha.
+ */
 const Container = styled.div`
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem 1.5rem;
+  gap: 1rem;
   justify-content: space-between;
   margin: 0 auto;
   max-width: var(--layout-max-width);
@@ -150,19 +124,7 @@ const BrandArea = styled.div`
   align-items: center;
   display: flex;
   flex-shrink: 0;
-  gap: 1rem;
-`
-
-const BrandDivider = styled.span`
-  background-color: var(--color-border);
-  height: 2rem;
-  width: 1px;
-`
-
-const BadgeImage = styled.img`
-  display: block;
-  height: 2rem;
-  width: auto;
+  gap: 0.75rem;
 `
 
 const Brand = styled.a`
@@ -206,7 +168,7 @@ const NavList = styled.ul`
   background-color: var(--color-yellow);
   border-radius: 999px;
   display: flex;
-  gap: 0.25rem;
+  gap: 0.125rem;
   list-style: none;
   margin: 0;
   padding: 0.375rem;
@@ -218,10 +180,10 @@ const NavLink = styled.a`
   border-radius: 999px;
   color: var(--color-surface);
   display: inline-flex;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  gap: 0.4rem;
-  padding: 0.5rem 0.875rem;
+  gap: 0.3125rem;
+  padding: 0.5rem 0.5625rem;
   text-decoration: none;
   transition: background-color 0.2s ease;
   white-space: nowrap;

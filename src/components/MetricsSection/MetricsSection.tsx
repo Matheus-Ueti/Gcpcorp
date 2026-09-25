@@ -60,10 +60,12 @@ const Container = styled.div`
   padding: 0 var(--layout-gutter);
 `
 
+/* Frase de destaque: usa a fonte dos títulos, não a do texto corrido. */
 const Statement = styled.p`
   color: var(--color-text-strong);
+  font-family: var(--font-display);
   font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.25rem);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.25;
   margin: 0 0 4rem;
@@ -118,9 +120,14 @@ const Label = styled.dt`
 /**
  * `tabular-nums` mantém os dígitos na mesma largura, então os números ficam
  * alinhados entre as colunas em vez de dançarem conforme os algarismos.
+ *
+ * Os números usam a Poppins, não a Qurova: a versão DEMO da Qurova troca os
+ * algarismos por um carimbo "PERSONAL USE ONLY". Com a Qurova licenciada, dá
+ * para voltar para var(--font-display) se quiser.
  */
 const Value = styled.dd`
   color: var(--color-text-strong);
+  font-family: var(--font-body);
   font-size: clamp(2.25rem, 1.6rem + 2.4vw, 3.25rem);
   font-variant-numeric: tabular-nums;
   font-weight: 700;

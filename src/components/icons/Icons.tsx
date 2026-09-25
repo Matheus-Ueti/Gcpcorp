@@ -141,6 +141,35 @@ export function ShieldIcon(props: IconProps) {
   )
 }
 
+/* ── Sobre nós ───────────────────────────────────────────────────────────── */
+
+/**
+ * Janela com lupa. As bordas da janela param antes da lupa em vez de passar
+ * por baixo dela, para os dois traços não se cruzarem.
+ */
+export function AnalysisIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <path d="M20.5 10.2V6A1.5 1.5 0 0 0 19 4.5H5A1.5 1.5 0 0 0 3.5 6v11A1.5 1.5 0 0 0 5 18.5h6.2" />
+      <path d="M3.5 8.2h17" />
+      <circle cx="16.4" cy="15.4" r="3.4" />
+      <path d="m18.9 17.9 2.6 2.6" />
+    </OutlineIcon>
+  )
+}
+
+export function TechnologyIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <rect x="3" y="4" width="18" height="12.5" rx="1.6" />
+      <path d="M12 16.5V20" />
+      <path d="M8.5 20h7" />
+      <path d="m9.8 8.2-2.4 2.05 2.4 2.05" />
+      <path d="m14.2 8.2 2.4 2.05-2.4 2.05" />
+    </OutlineIcon>
+  )
+}
+
 /* ── Contato ─────────────────────────────────────────────────────────────── */
 
 export function PhoneIcon(props: IconProps) {

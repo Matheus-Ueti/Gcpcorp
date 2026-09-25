@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import logoGcpcorp from '../../assets/logo-gcpcorp.svg'
 import { InstagramIcon, LinkedInIcon, MailIcon, MapPinIcon, PhoneIcon } from '../icons/Icons'
+import { PartnerBadge } from '../PartnerBadge/PartnerBadge'
 import type { IconComponent } from '../../types'
 
 const LINK_GROUPS = [
@@ -61,7 +62,10 @@ export function Footer() {
       <Container>
         <Top>
           <BrandColumn>
-            <Logo src={logoGcpcorp} alt={t('footer.logoAlt')} />
+            <Lockup>
+              <Logo src={logoGcpcorp} alt={t('footer.logoAlt')} />
+              <PartnerBadge height="1.875rem" />
+            </Lockup>
             <BrandText>{t('footer.brandText')}</BrandText>
             <SocialList>
               {SOCIAL_ICONS.map(({ key, href, Icon }) => (
@@ -159,10 +163,18 @@ const BrandColumn = styled.div`
   max-width: 22rem;
 `
 
+/** Logo e selo Partner lado a lado, como em todo lugar onde a marca aparece. */
+const Lockup = styled.div`
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+  margin-bottom: 1rem;
+`
+
 const Logo = styled.img`
   display: block;
   height: 1.875rem;
-  margin-bottom: 1rem;
   width: auto;
 `
 

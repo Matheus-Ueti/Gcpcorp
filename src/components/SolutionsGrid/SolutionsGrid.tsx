@@ -121,12 +121,13 @@ const Intro = styled.div`
   max-width: 36rem;
 `
 
+/* Qurova 600, o peso dos títulos no layout aprovado (a 700 ela fica pesada demais). */
 const Title = styled.h2`
   color: var(--color-text-strong);
   font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.2;
   margin: 0 0 1rem;
   text-wrap: balance;
 `
@@ -224,7 +225,7 @@ const StageStep = styled.span`
 const StageTitle = styled.h3`
   color: var(--color-text-strong);
   font-size: 1.375rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.25;
   margin: 0 0 0.625rem;

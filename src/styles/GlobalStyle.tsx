@@ -8,6 +8,40 @@ import { createGlobalStyle } from 'styled-components'
  * literais, então ajustar a identidade visual é mexer em um lugar só.
  */
 export const GlobalStyle = createGlobalStyle`
+  /*
+   * Qurova, a fonte de títulos da marca. Os arquivos ficam em public/fonts/qurova
+   * e estão fora do Git (ver .gitignore): hoje são a versão DEMO, só para uso
+   * pessoal. Onde eles não existirem — como no deploy —, --font-display cai na
+   * Quicksand, que tem desenho parecido.
+   */
+  @font-face {
+    font-display: swap;
+    font-family: 'Qurova';
+    font-weight: 400;
+    src: url('/fonts/qurova/Qurova-Regular.otf') format('opentype');
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: 'Qurova';
+    font-weight: 500;
+    src: url('/fonts/qurova/Qurova-Medium.otf') format('opentype');
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: 'Qurova';
+    font-weight: 600;
+    src: url('/fonts/qurova/Qurova-SemiBold.otf') format('opentype');
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: 'Qurova';
+    font-weight: 700;
+    src: url('/fonts/qurova/Qurova-Bold.otf') format('opentype');
+  }
+
   :root {
     /* Paleta Google, base da identidade da GCP Corp */
     --color-blue: #1a73e8;
@@ -16,6 +50,10 @@ export const GlobalStyle = createGlobalStyle`
     --color-yellow: #fbbc05;
     --color-green: #34a853;
 
+    /* Tons do próprio logo GCP Corp. (o azul-marinho de "cp") */
+    --color-navy: #132a3a;
+    --color-slate: #3f6f7a;
+
     /* Texto */
     --color-text-strong: #202124;
     --color-text: #3c4043;
@@ -23,19 +61,28 @@ export const GlobalStyle = createGlobalStyle`
     /* Superfícies */
     --color-surface: #ffffff;
     --color-surface-muted: #f8fafc;
+    /* Faixas de ponta a ponta que cortam o card, como a do ecossistema. */
+    --color-surface-band: #f3f4f6;
     --color-border: #e8eaed;
+    --color-border-warm: #dcb68c;
     --color-muted: #9aa5a0;
 
-    /* Ação principal */
-    --color-cta-background: #fbbc05;
-    --color-cta-background-hover: #f2b300;
-    --color-cta-text: #202124;
+    /*
+     * Ação principal: amarelo com borda inferior mais escura, que dá o leve
+     * relevo de botão pressionável do layout aprovado.
+     */
+    --color-cta-background: #ffbd00;
+    --color-cta-highlight: #ffcb3d;
+    --color-cta-edge: #d99a00;
+    --color-cta-text: #ffffff;
 
     /*
-     * Fonte de exibição da marca. Trocar a família aqui (e o <link> do Google
-     * Fonts no index.html) reflete em todo o site.
+     * Fontes da marca: Qurova (arredondada) nos títulos e no botão, Poppins no
+     * texto corrido e na interface. A Quicksand é o substituto da Qurova
+     * enquanto os arquivos licenciados não estão no repositório.
      */
-    --font-display: 'Quicksand', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-display: 'Qurova', 'Quicksand', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-body: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
 
     /* Layout */
     --layout-max-width: 1200px;
@@ -62,9 +109,18 @@ export const GlobalStyle = createGlobalStyle`
   body {
     background-color: var(--color-surface);
     color: var(--color-text);
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
   }
 
   #root {

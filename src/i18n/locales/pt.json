@@ -1,9 +1,12 @@
 {
+  "brand": {
+    "logoAlt": "GCP Corp.",
+    "partnerBadgeAlt": "Google Cloud Partner"
+  },
   "header": {
     "mainNav": "Menu principal",
     "languageSwitcher": "Idioma do site",
     "logoAlt": "GCP Corp.",
-    "partnerBadgeAlt": "Google Cloud Partner",
     "nav": {
       "home": "Início",
       "about": "Sobre nós",
@@ -17,10 +20,57 @@
     }
   },
   "hero": {
-    "title": "Transforme <highlight>tecnologia</highlight> em <highlight>vantagem</highlight> para o <highlight>seu negócio</highlight>",
+    "title": "Transforme <highlight>tecnologia em vantagem</highlight> para o <highlight>seu negócio</highlight>",
     "description": "Cloud, inteligência artificial, dados, produtividade e outras soluções <strong>para empresas que querem evoluir</strong> com mais inteligência, eficiência e segurança.",
     "lead": "Conheça nossas soluções",
     "cta": "Fale com a GCP Corp."
+  },
+  "about": {
+    "title": "Tecnologia que começa <highlight>entendendo o negócio.</highlight>",
+    "paragraphs": {
+      "intro": "A GCP Corp. conecta empresas às possibilidades da tecnologia para <strong>transformar desafios em soluções</strong> e criar novas oportunidades para o negócio.",
+      "approach": "Unimos <strong>conhecimento</strong>, <strong>estratégia</strong> e <strong>proximidade</strong> para entender cada realidade, identificar oportunidades e construir soluções que façam sentido na prática."
+    },
+    "pillars": {
+      "analysis": {
+        "title": "Análise",
+        "description": "Entendemos o contexto antes de pensar na solução."
+      },
+      "technology": {
+        "title": "Tecnologia",
+        "description": "Conectamos possibilidades às necessidades reais."
+      },
+      "proximity": {
+        "title": "Proximidade",
+        "description": "Entendemos o contexto antes de pensar na solução."
+      }
+    },
+    "closing": {
+      "lead": "<strong>Cada empresa enfrenta desafios diferentes</strong>. É aí que entramos:",
+      "text": "Conectando tecnologia ao que o seu negócio realmente precisa."
+    }
+  },
+  "ecosystem": {
+    "title": "Um ecossistema. <highlight>Tudo conectado ao seu negócio.</highlight>",
+    "lead": "Do cloud à inteligência artificial, reunimos diferentes soluções para empresas que buscam mais integração, produtividade, segurança e novas possibilidades.",
+    "workspace": {
+      "label": "Produtos do Google Workspace",
+      "products": {
+        "gmail": "Gmail",
+        "drive": "Google Drive",
+        "calendar": "Google Agenda",
+        "meet": "Google Meet",
+        "docs": "Documentos Google",
+        "sheets": "Planilhas Google",
+        "slides": "Apresentações Google",
+        "gemini": "Gemini",
+        "forms": "Formulários Google",
+        "keep": "Google Keep",
+        "sites": "Google Sites",
+        "appsheet": "AppSheet",
+        "chat": "Google Chat"
+      }
+    }
   },
   "solutions": {
     "title": "Da migração à IA, <highlight>uma etapa de cada vez</highlight>",
