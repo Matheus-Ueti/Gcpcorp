@@ -1,3 +1,4 @@
+import { Trans, useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { HeroRings } from '../HeroRings/HeroRings'
 
@@ -6,24 +7,23 @@ import { HeroRings } from '../HeroRings/HeroRings'
  * animado à direita.
  */
 export function Hero() {
+  const { t } = useTranslation()
+
   return (
     <Section id="inicio">
       <Container>
         <Content>
           <Title>
-            Transforme <Highlight>tecnologia</Highlight> em <Highlight>vantagem</Highlight> para o{' '}
-            <Highlight>seu negócio</Highlight>
+            <Trans i18nKey="hero.title" components={{ highlight: <Highlight /> }} />
           </Title>
 
           <Description>
-            Cloud, inteligência artificial, dados, produtividade e outras soluções{' '}
-            <strong>para empresas que querem evoluir</strong> com mais inteligência, eficiência e
-            segurança.
+            <Trans i18nKey="hero.description" components={{ strong: <strong /> }} />
           </Description>
 
-          <Lead>Conheça nossas soluções</Lead>
+          <Lead>{t('hero.lead')}</Lead>
 
-          <CallToAction href="#contato">Fale com a GCP Corp.</CallToAction>
+          <CallToAction href="#contato">{t('hero.cta')}</CallToAction>
         </Content>
 
         <Artwork>

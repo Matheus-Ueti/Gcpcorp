@@ -1,0 +1,87 @@
+{
+  "header": {
+    "mainNav": "Menú principal",
+    "languageSwitcher": "Idioma del sitio",
+    "logoAlt": "GCP Corp.",
+    "partnerBadgeAlt": "Google Cloud Partner",
+    "nav": {
+      "home": "Inicio",
+      "about": "Sobre nosotros",
+      "solutions": "Soluciones",
+      "marketplace": "Marketplace",
+      "contact": "Contacto"
+    },
+    "social": {
+      "linkedin": "LinkedIn de GCP Corp.",
+      "instagram": "Instagram de GCP Corp."
+    }
+  },
+  "hero": {
+    "title": "Convierte la <highlight>tecnología</highlight> en una <highlight>ventaja</highlight> para <highlight>tu negocio</highlight>",
+    "description": "Cloud, inteligencia artificial, datos, productividad y otras soluciones <strong>para empresas que quieren crecer</strong> con más inteligencia, eficiencia y seguridad.",
+    "lead": "Conoce nuestras soluciones",
+    "cta": "Habla con GCP Corp."
+  },
+  "solutions": {
+    "title": "De la migración a la IA, <highlight>un paso a la vez</highlight>",
+    "lead": "Cada etapa entrega valor por sí sola y prepara la siguiente. Empiezas desde donde estás.",
+    "step": "Etapa {{number}}",
+    "stages": {
+      "migrate": {
+        "title": "Migrar",
+        "description": "Llevamos tu infraestructura a Google Cloud con inventario, plan de corte y una ventana de migración definida, sin detener la operación."
+      },
+      "organizeData": {
+        "title": "Organizar los datos",
+        "description": "Pipelines y un data warehouse que consolidan lo que hoy está disperso, con linaje y costo bajo control."
+      },
+      "applyAi": {
+        "title": "Aplicar IA",
+        "description": "Modelos sobre tu propia base de datos, del piloto a producción, con evaluación y gobernanza."
+      }
+    },
+    "continuous": {
+      "title": "Seguridad y soporte gestionado",
+      "description": "En todas las etapas: hardening, monitoreo y un equipo acompañando tu entorno día a día."
+    }
+  },
+  "metrics": {
+    "statement": "Diez años ayudando a empresas brasileñas a obtener más valor de <highlight>Google Cloud</highlight>.",
+    "items": {
+      "projects": "Proyectos entregados",
+      "years": "Años con Google Cloud",
+      "clients": "Clientes atendidos",
+      "support": "Soporte gestionado"
+    }
+  },
+  "footer": {
+    "logoAlt": "GCP Corp.",
+    "brandText": "Cloud, inteligencia artificial, datos y productividad para empresas que quieren crecer con más inteligencia, eficiencia y seguridad.",
+    "columns": {
+      "company": {
+        "title": "Empresa",
+        "home": "Inicio",
+        "about": "Sobre nosotros",
+        "marketplace": "Marketplace"
+      },
+      "solutions": {
+        "title": "Soluciones",
+        "migration": "Migración a la nube",
+        "dataAnalytics": "Datos y analítica",
+        "ai": "IA y machine learning",
+        "security": "Seguridad y soporte"
+      },
+      "contact": {
+        "title": "Contacto",
+        "location": "São Paulo, SP, Brasil"
+      }
+    },
+    "social": {
+      "linkedin": "LinkedIn de GCP Corp.",
+      "instagram": "Instagram de GCP Corp."
+    },
+    "copyright": "© {{year}} GCP Corp. Todos los derechos reservados.",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfUse": "Términos de uso"
+  }
+}

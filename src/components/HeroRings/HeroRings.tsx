@@ -1,11 +1,6 @@
 import styled, { keyframes } from 'styled-components'
-import {
-  HERO_CENTER,
-  HERO_RINGS,
-  HERO_VIEWBOX_SIZE,
-  type HeroRing,
-  type HeroShape,
-} from './heroRingsData'
+import { HERO_CENTER, HERO_RINGS, HERO_VIEWBOX_SIZE } from './heroRingsData'
+import type { HeroRingStyleProps, HeroShape } from '../../types'
 
 /**
  * "Elemento Hero" da marca, com cada anel concêntrico girando de forma
@@ -61,18 +56,13 @@ const Svg = styled.svg`
   height: auto;
 `
 
-interface RingProps {
-  $direction: HeroRing['direction']
-  $durationInSeconds: number
-}
-
 /**
  * `transform-box: view-box` faz a `transform-origin` ser resolvida contra o
  * viewBox do SVG, e não contra a caixa de cada grupo. Sem isso cada anel giraria
  * em torno do centro do próprio bounding box — que, num arco, não coincide com o
  * centro da circunferência — e a arte se desmontaria.
  */
-const Ring = styled.g<RingProps>`
+const Ring = styled.g<HeroRingStyleProps>`
   transform-box: view-box;
   transform-origin: ${HERO_CENTER}px ${HERO_CENTER}px;
   will-change: transform;

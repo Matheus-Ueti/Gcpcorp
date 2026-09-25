@@ -22,6 +22,7 @@ export const GlobalStyle = createGlobalStyle`
 
     /* Superfícies */
     --color-surface: #ffffff;
+    --color-surface-muted: #f8fafc;
     --color-border: #e8eaed;
     --color-muted: #9aa5a0;
 
@@ -74,5 +75,19 @@ export const GlobalStyle = createGlobalStyle`
   img,
   svg {
     max-width: 100%;
+  }
+
+  /*
+   * Superfícies desenhadas pelo navegador. Sem isto elas chegam com o azul
+   * padrão do sistema, que não pertence a nenhuma identidade.
+   */
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-yellow) 38%, transparent);
+    color: var(--color-text-strong);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-blue);
+    outline-offset: 3px;
   }
 `

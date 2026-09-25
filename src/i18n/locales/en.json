@@ -1,0 +1,87 @@
+{
+  "header": {
+    "mainNav": "Main menu",
+    "languageSwitcher": "Site language",
+    "logoAlt": "GCP Corp.",
+    "partnerBadgeAlt": "Google Cloud Partner",
+    "nav": {
+      "home": "Home",
+      "about": "About us",
+      "solutions": "Solutions",
+      "marketplace": "Marketplace",
+      "contact": "Contact"
+    },
+    "social": {
+      "linkedin": "GCP Corp. on LinkedIn",
+      "instagram": "GCP Corp. on Instagram"
+    }
+  },
+  "hero": {
+    "title": "Turn <highlight>technology</highlight> into an <highlight>advantage</highlight> for <highlight>your business</highlight>",
+    "description": "Cloud, artificial intelligence, data, productivity and other solutions <strong>for companies that want to grow</strong> with more intelligence, efficiency and security.",
+    "lead": "Discover our solutions",
+    "cta": "Talk to GCP Corp."
+  },
+  "solutions": {
+    "title": "From migration to AI, <highlight>one step at a time</highlight>",
+    "lead": "Each phase delivers value on its own and sets up the next one. You start wherever you are.",
+    "step": "Step {{number}}",
+    "stages": {
+      "migrate": {
+        "title": "Migrate",
+        "description": "We move your infrastructure to Google Cloud with an inventory, cutover plan and a defined migration window — without stopping operations."
+      },
+      "organizeData": {
+        "title": "Organize your data",
+        "description": "Pipelines and a data warehouse that consolidate what's scattered today, with lineage and cost under control."
+      },
+      "applyAi": {
+        "title": "Apply AI",
+        "description": "Models built on your own data, from pilot to production, with evaluation and governance."
+      }
+    },
+    "continuous": {
+      "title": "Security and managed support",
+      "description": "Throughout every stage: hardening, monitoring and a team following your environment day to day."
+    }
+  },
+  "metrics": {
+    "statement": "Ten years helping Brazilian companies get more value from <highlight>Google Cloud</highlight>.",
+    "items": {
+      "projects": "Projects delivered",
+      "years": "Years with Google Cloud",
+      "clients": "Clients served",
+      "support": "Managed support"
+    }
+  },
+  "footer": {
+    "logoAlt": "GCP Corp.",
+    "brandText": "Cloud, artificial intelligence, data and productivity for companies that want to grow with more intelligence, efficiency and security.",
+    "columns": {
+      "company": {
+        "title": "Company",
+        "home": "Home",
+        "about": "About us",
+        "marketplace": "Marketplace"
+      },
+      "solutions": {
+        "title": "Solutions",
+        "migration": "Cloud migration",
+        "dataAnalytics": "Data and analytics",
+        "ai": "AI and machine learning",
+        "security": "Security and support"
+      },
+      "contact": {
+        "title": "Contact",
+        "location": "São Paulo, SP, Brazil"
+      }
+    },
+    "social": {
+      "linkedin": "GCP Corp. on LinkedIn",
+      "instagram": "GCP Corp. on Instagram"
+    },
+    "copyright": "© {{year}} GCP Corp. All rights reserved.",
+    "privacyPolicy": "Privacy policy",
+    "termsOfUse": "Terms of use"
+  }
+}

@@ -14,26 +14,13 @@
  * novo a partir do SVG em vez de editar os traços à mão.
  */
 
+import type { HeroRing } from '../../types'
+
 /** Lado do viewBox quadrado do SVG original. */
 export const HERO_VIEWBOX_SIZE = 1080
 
 /** Centro de rotação dos anéis, em unidades do viewBox. */
 export const HERO_CENTER = HERO_VIEWBOX_SIZE / 2
-
-export type HeroShape =
-  | { kind: 'path'; fill: string; d: string }
-  | { kind: 'circle'; fill: string; cx: number; cy: number; r: number }
-
-export type HeroRingId = 'green' | 'yellow' | 'blue' | 'red'
-
-export interface HeroRing {
-  id: HeroRingId
-  /** Duração de uma volta completa, em segundos. */
-  durationInSeconds: number
-  /** Sentido do giro: horário ou anti-horário. */
-  direction: 'clockwise' | 'counterclockwise'
-  shapes: HeroShape[]
-}
 
 /**
  * Anéis na ordem de pintura (de fora para dentro).

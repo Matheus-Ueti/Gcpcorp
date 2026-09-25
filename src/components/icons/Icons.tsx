@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { IconProps } from '../../types'
 
 /**
  * Conjunto de ícones do site.
@@ -10,8 +10,6 @@ import type { SVGProps } from 'react'
  * Os ícones de navegação são de traço; os de redes sociais são os glifos
  * oficiais das marcas, que só existem em versão preenchida.
  */
-
-type IconProps = SVGProps<SVGSVGElement>
 
 /** Base dos ícones de traço: grade 24x24, contorno na cor do texto. */
 function OutlineIcon({ children, ...props }: IconProps) {
@@ -97,6 +95,67 @@ export function MailIcon(props: IconProps) {
     <OutlineIcon {...props}>
       <rect x="2.5" y="5.5" width="19" height="13" rx="1.6" />
       <path d="m3.2 7 8.8 6 8.8-6" />
+    </OutlineIcon>
+  )
+}
+
+/* ── Soluções ────────────────────────────────────────────────────────────── */
+
+export function CloudIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <path d="M7 19a4.5 4.5 0 0 1-.4-8.98 5.5 5.5 0 0 1 10.6-1.2A4 4 0 0 1 17.5 19H7z" />
+      <path d="M12 16.5v-6" />
+      <path d="m9.5 13 2.5-2.5 2.5 2.5" />
+    </OutlineIcon>
+  )
+}
+
+export function ChartIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <path d="M3.5 3.5v15a2 2 0 0 0 2 2h15" />
+      <path d="M7.5 16.5v-4" />
+      <path d="M12 16.5v-8" />
+      <path d="M16.5 16.5v-5.5" />
+      <path d="M20.5 16.5v-9" />
+    </OutlineIcon>
+  )
+}
+
+export function SparkIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <path d="M12 2.8 13.9 8 19 9.9 13.9 11.8 12 17l-1.9-5.2L5 9.9 10.1 8 12 2.8z" />
+      <path d="M18.5 15.5 19.4 18l2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9.9-2.5z" />
+    </OutlineIcon>
+  )
+}
+
+export function ShieldIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <path d="M12 2.8 4.8 5.9v5.5c0 4.3 3 8.3 7.2 9.8 4.2-1.5 7.2-5.5 7.2-9.8V5.9L12 2.8z" />
+      <path d="m8.9 11.8 2.2 2.2 4-4.2" />
+    </OutlineIcon>
+  )
+}
+
+/* ── Contato ─────────────────────────────────────────────────────────────── */
+
+export function PhoneIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <path d="M6.3 3.5h3l1.5 3.8-1.9 1.4a11 11 0 0 0 5.4 5.4l1.4-1.9 3.8 1.5v3a1.8 1.8 0 0 1-2 1.8A15.8 15.8 0 0 1 4.5 5.5a1.8 1.8 0 0 1 1.8-2z" />
+    </OutlineIcon>
+  )
+}
+
+export function MapPinIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <path d="M12 21.2c4-3.9 6-7.2 6-9.9a6 6 0 1 0-12 0c0 2.7 2 6 6 9.9z" />
+      <circle cx="12" cy="11" r="2.4" />
     </OutlineIcon>
   )
 }
