@@ -1,14 +1,18 @@
+import { useEffect, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { ChartIcon, CloudIcon, ShieldIcon, SparkIcon } from '../icons/Icons'
-import type { BrandAccent, IconComponent, SolutionMarkerProps } from '../../types'
-
-interface JourneyStageMeta {
-  key: string
-  products: string[]
-  Icon: IconComponent
-  accent: BrandAccent
-}
+import applyAiImage from '../../assets/journey/applyAi.webp'
+import migrateImage from '../../assets/journey/migrate.webp'
+import organizeDataImage from '../../assets/journey/organizeData.webp'
+import { AiChipIcon, DatabaseIcon, ServerCloudIcon, ShieldIcon } from '../icons/Icons'
+import { JourneyShowcase } from '../JourneyShowcase/JourneyShowcase'
+import type {
+  ActiveStyleProps,
+  BrandAccent,
+  IllustratedJourneyStage,
+  JourneyStage,
+  SolutionMarkerProps,
+} from '../../types'
 
 /**
  * As três etapas são uma sequência real: só há dado confiável depois que a
@@ -17,38 +21,81 @@ interface JourneyStageMeta {
  *
  * Segurança e suporte ficam fora da sequência de propósito: acontecem durante
  * todas as etapas, e a seção mostra isso como faixa contínua abaixo delas.
+ *
+ * Fotos do Unsplash (licença Unsplash: uso comercial livre, sem atribuição
+ * obrigatória): Homa Appliances (aG7obD4_EVI), Luke Chesser (JKUTrJ4vK00) e
+ * Growtika (nGoCBxiaRO0).
  */
-const JOURNEY_STAGES: JourneyStageMeta[] = [
+const JOURNEY_STAGES: IllustratedJourneyStage[] = [
   {
     key: 'migrate',
     products: ['Compute Engine', 'Google Kubernetes Engine', 'Cloud Storage'],
-    Icon: CloudIcon,
+    Icon: ServerCloudIcon,
     accent: 'blue',
+    image: migrateImage,
   },
   {
     key: 'organizeData',
     products: ['BigQuery', 'Dataflow', 'Looker'],
-    Icon: ChartIcon,
+    Icon: DatabaseIcon,
     accent: 'green',
+    image: organizeDataImage,
   },
   {
     key: 'applyAi',
     products: ['Vertex AI', 'Gemini', 'Document AI'],
-    Icon: SparkIcon,
+    Icon: AiChipIcon,
     accent: 'yellow',
+    image: applyAiImage,
   },
 ]
 
-const CONTINUOUS_STAGE: JourneyStageMeta = {
+const CONTINUOUS_STAGE: JourneyStage = {
   key: 'continuous',
   products: ['Security Command Center', 'Cloud IAM', 'Cloud Monitoring'],
   Icon: ShieldIcon,
   accent: 'red',
 }
 
-/** Seção de soluções, apresentada como a jornada de nuvem que a GCP Corp conduz. */
+/**
+ * Linha de leitura: a etapa que cruza o meio da tela vira a ativa. O painel
+ * fixo fica centralizado na tela, então o texto em foco fica ao lado dele.
+ */
+const READING_LINE = '-50% 0px -50% 0px'
+
+/**
+ * Jornada "Da migração à IA" com rolagem guiada: no desktop, as etapas passam
+ * pela esquerda enquanto um painel fixo à direita mostra a etapa em foco.
+ *
+ * Usa a rolagem da própria página (painel em position: sticky) em vez de uma
+ * caixa com rolagem interna: numa landing page, uma rolagem dentro da outra
+ * prende a roda do mouse e atrapalha no celular. No celular, o painel some e
+ * as etapas ficam empilhadas, todas legíveis.
+ */
 export function SolutionsGrid() {
   const { t } = useTranslation()
+  const stageRefs = useRef<Array<HTMLLIElement | null>>([])
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveIndex(Number((entry.target as HTMLElement).dataset.index))
+          }
+        }
+      },
+      { rootMargin: READING_LINE },
+    )
+
+    for (const stage of stageRefs.current) {
+      if (stage) {
+        observer.observe(stage)
+      }
+    }
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <Section id="solucoes">
@@ -61,23 +108,38 @@ export function SolutionsGrid() {
         </Intro>
 
         <Journey>
-          {JOURNEY_STAGES.map(({ key, products, Icon, accent }, index) => (
-            <Stage key={key}>
-              <StageHead>
-                <Marker $accent={accent}>
-                  <Icon width={20} height={20} />
-                </Marker>
-                <StageStep>{t('solutions.step', { number: index + 1 })}</StageStep>
-              </StageHead>
-              <StageTitle>{t(`solutions.stages.${key}.title`)}</StageTitle>
-              <StageText>{t(`solutions.stages.${key}.description`)}</StageText>
-              <ProductList>
-                {products.map((product) => (
-                  <Product key={product}>{product}</Product>
-                ))}
-              </ProductList>
-            </Stage>
-          ))}
+          <Stages>
+            {JOURNEY_STAGES.map(({ key, products, Icon, accent, image }, index) => (
+              <Stage
+                key={key}
+                ref={(element) => {
+                  stageRefs.current[index] = element
+                }}
+                data-index={index}
+                $isActive={index === activeIndex}
+              >
+                <StageImage src={image} alt="" loading="lazy" decoding="async" />
+                <StageHead>
+                  <Marker $accent={accent}>
+                    <Icon width={20} height={20} />
+                  </Marker>
+                  <StageStep>{t('solutions.step', { number: index + 1 })}</StageStep>
+                </StageHead>
+                <StageTitle>{t(`solutions.stages.${key}.title`)}</StageTitle>
+                <StageText>{t(`solutions.stages.${key}.description`)}</StageText>
+                <ProductList>
+                  {products.map((product) => (
+                    <Product key={product}>{product}</Product>
+                  ))}
+                </ProductList>
+              </Stage>
+            ))}
+          </Stages>
+
+          {/* Repete a etapa em foco de forma visual: é decorativo para leitores de tela. */}
+          <ShowcaseColumn aria-hidden="true">
+            <JourneyShowcase stages={JOURNEY_STAGES} activeIndex={activeIndex} />
+          </ShowcaseColumn>
         </Journey>
 
         <Continuous>
@@ -104,6 +166,9 @@ export function SolutionsGrid() {
 /* ── Estilos ─────────────────────────────────────────────────────────────── */
 
 const accentColor = (accent: BrandAccent) => `var(--color-${accent})`
+
+/** A partir desta largura, o painel fixo aparece e o efeito de rolagem liga. */
+const DESKTOP = '(min-width: 960px)'
 
 const Section = styled.section`
   background-color: var(--color-surface-muted);
@@ -142,47 +207,63 @@ const Lead = styled.p`
   max-width: 34rem;
 `
 
-/**
- * A linha que atravessa as etapas é o percurso em si, não enfeite: ela nasce no
- * primeiro marcador e morre no último, passando pelas três cores da sequência.
- */
-const Journey = styled.ol`
+const Journey = styled.div`
   display: grid;
-  gap: 2.5rem;
-  grid-template-columns: 1fr;
-  list-style: none;
-  margin: 0 0 1.5rem;
-  padding: 0;
-  position: relative;
+  grid-template-columns: minmax(0, 1fr);
 
-  @media (min-width: 860px) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-
-    /*
-     * A linha começa e termina no centro dos marcadores das pontas, não na
-     * borda da grade. Marcador tem 3rem, logo seu centro fica a 1.5rem do
-     * início da coluna; a folga à direita é a largura de uma coluna menos isso.
-     */
-    &::before {
-      background: linear-gradient(
-        to right,
-        var(--color-blue),
-        var(--color-green) 50%,
-        var(--color-yellow)
-      );
-      content: '';
-      height: 2px;
-      left: 1.5rem;
-      position: absolute;
-      right: calc((100% - 4rem) / 3 - 1.5rem);
-      top: 1.5rem;
-    }
+  @media ${DESKTOP} {
+    gap: 4rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 `
 
-const Stage = styled.li`
-  position: relative;
+const Stages = styled.ol`
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @media ${DESKTOP} {
+    gap: 0;
+  }
+`
+
+/*
+ * No desktop, cada etapa ocupa boa parte da tela para haver rolagem enquanto o
+ * painel fica parado; a última não precisa (senão sobra um vão vazio no fim).
+ * Fora de foco, a etapa esmaece — como no componente original.
+ */
+const Stage = styled.li<ActiveStyleProps>`
+  @media ${DESKTOP} {
+    min-height: 55vh;
+    opacity: ${({ $isActive }) => ($isActive ? 1 : 0.35)};
+    padding-bottom: 2rem;
+    transition: opacity 0.35s ease;
+
+    &:last-child {
+      min-height: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+`
+
+/** No celular não há painel: a foto da etapa vem no topo dela. */
+const StageImage = styled.img`
+  aspect-ratio: 16 / 9;
+  border-radius: 1rem;
+  display: block;
+  margin-bottom: 1.25rem;
+  object-fit: cover;
+  width: 100%;
+
+  @media ${DESKTOP} {
+    display: none;
+  }
 `
 
 const StageHead = styled.div`
@@ -192,10 +273,6 @@ const StageHead = styled.div`
   margin-bottom: 1.25rem;
 `
 
-/**
- * Fundo opaco (e não translúcido) para o marcador cobrir a linha do percurso
- * que passa atrás dele.
- */
 const Marker = styled.span<SolutionMarkerProps>`
   align-items: center;
   background-color: var(--color-surface);
@@ -209,17 +286,11 @@ const Marker = styled.span<SolutionMarkerProps>`
   width: 3rem;
 `
 
-/**
- * O fundo opaco interrompe a linha do percurso atrás do rótulo, em vez de
- * deixá-la riscar o texto.
- */
 const StageStep = styled.span`
-  background-color: var(--color-surface-muted);
   color: var(--color-text);
   font-size: 0.8125rem;
   font-variant-numeric: tabular-nums;
   font-weight: 600;
-  padding: 0 0.5rem 0 0;
 `
 
 const StageTitle = styled.h3`
@@ -258,6 +329,19 @@ const Product = styled.li`
   white-space: nowrap;
 `
 
+/*
+ * A coluna estica até a altura da lista de etapas; o painel dentro dela é que
+ * fica fixo (sticky). Se o próprio painel esticasse, não haveria espaço para
+ * ele "grudar" enquanto a lista rola.
+ */
+const ShowcaseColumn = styled.div`
+  display: none;
+
+  @media ${DESKTOP} {
+    display: block;
+  }
+`
+
 /**
  * Faixa contínua: atravessa a largura toda para dizer, pela forma, que
  * segurança e suporte não são uma quarta etapa — acontecem durante as três.
@@ -271,6 +355,7 @@ const Continuous = styled.div`
   flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: space-between;
+  margin-top: 3rem;
   padding: 1.75rem;
 
   ${StageTitle} {

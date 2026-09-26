@@ -28,9 +28,8 @@ const PILLAR_GAP = 'clamp(1rem, 2vw, 1.5rem)'
 /**
  * "Sobre nós": quem é a GCP Corp e como trabalha.
  *
- * É a parte de cima do card do layout: o anel do hero vaza por cima do fio
- * superior, e a borda de baixo fica aberta porque a faixa do ecossistema, logo
- * em seguida, corta o card ao meio.
+ * O card começa exatamente onde o hero termina: o anel do hero vaza por cima
+ * do fio superior dele, costurando as duas seções numa composição só.
  */
 export function AboutSection() {
   const { t } = useTranslation()
@@ -38,7 +37,7 @@ export function AboutSection() {
   return (
     <Section id="sobre" aria-labelledby="sobre-titulo">
       <Container>
-        <Card $openEdge="bottom">
+        <Card>
           <Lockup>
             <Logo src={logoGcpcorp} alt={t('brand.logoAlt')} />
             <PartnerBadge height={LOCKUP_HEIGHT} />
@@ -94,7 +93,7 @@ export function AboutSection() {
 
 const accentColor = (accent: BrandAccent) => `var(--color-${accent})`
 
-/* Sem respiro nas pontas: em cima o card encosta no hero, embaixo na faixa. */
+/* Sem respiro no topo: o card encosta no hero para o anel cruzar o fio. */
 const Section = styled.section`
   padding: 0;
 `
@@ -107,8 +106,6 @@ const Container = styled.div`
 
 const Card = styled(CardFrame)`
   padding: clamp(1.75rem, 5.5vw, 4.5rem);
-  /* Mais respiro embaixo: é o espaço antes de a faixa cortar o card. */
-  padding-bottom: clamp(2.5rem, 8.4vw, 6.75rem);
 `
 
 const Lockup = styled.div`

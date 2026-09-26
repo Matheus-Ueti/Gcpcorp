@@ -1,42 +1,10 @@
 import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import appsheetIcon from '../../assets/workspace/appsheet.svg'
-import calendarIcon from '../../assets/workspace/calendar.svg'
-import chatIcon from '../../assets/workspace/chat.svg'
-import docsIcon from '../../assets/workspace/docs.svg'
-import driveIcon from '../../assets/workspace/drive.svg'
-import formsIcon from '../../assets/workspace/forms.svg'
-import geminiIcon from '../../assets/workspace/gemini.png'
-import gmailIcon from '../../assets/workspace/gmail.svg'
-import keepIcon from '../../assets/workspace/keep.svg'
-import meetIcon from '../../assets/workspace/meet.svg'
-import sheetsIcon from '../../assets/workspace/sheets.svg'
-import sitesIcon from '../../assets/workspace/sites.svg'
-import slidesIcon from '../../assets/workspace/slides.svg'
 import { CardFrame } from '../CardFrame/CardFrame'
-import type { WorkspaceProduct } from '../../types'
-
-/**
- * Produtos do Google Workspace, na ordem do layout. Os ícones são os oficiais
- * atuais, baixados do CDN do próprio Google (os mesmos de workspace.google.com).
- * O do Gemini é um PNG porque o SVG oficial embute uma imagem de 250 KB.
- */
-const WORKSPACE_PRODUCTS: WorkspaceProduct[] = [
-  { key: 'gmail', icon: gmailIcon },
-  { key: 'drive', icon: driveIcon },
-  { key: 'calendar', icon: calendarIcon },
-  { key: 'meet', icon: meetIcon },
-  { key: 'docs', icon: docsIcon },
-  { key: 'sheets', icon: sheetsIcon },
-  { key: 'slides', icon: slidesIcon },
-  { key: 'gemini', icon: geminiIcon },
-  { key: 'forms', icon: formsIcon },
-  { key: 'keep', icon: keepIcon },
-  { key: 'sites', icon: sitesIcon },
-  { key: 'appsheet', icon: appsheetIcon },
-  { key: 'chat', icon: chatIcon },
-]
+import { CtaButton } from '../CtaButton/CtaButton'
+import { SolutionsOrbit } from '../SolutionsOrbit/SolutionsOrbit'
+import { WorkspaceApps } from '../WorkspaceApps/WorkspaceApps'
 
 /**
  * Logotipo oficial "Google Workspace". Como o selo Partner, o arquivo vem de
@@ -63,38 +31,35 @@ function WorkspaceLogo() {
 }
 
 /**
- * "Ecossistema": a faixa cinza de ponta a ponta que corta o card ao meio, e a
- * parte de baixo desse card, com os produtos do Google Workspace.
+ * "Nossas soluções": a proposta do ecossistema à esquerda e a órbita de
+ * soluções em volta do símbolo da marca à direita; abaixo, os produtos do
+ * Google Workspace.
  */
 export function EcosystemSection() {
   const { t } = useTranslation()
 
   return (
     <Section id="ecossistema" aria-labelledby="ecossistema-titulo">
-      <Band>
-        <BandContent>
-          <Title id="ecossistema-titulo">
-            <Trans i18nKey="ecosystem.title" components={{ highlight: <Highlight /> }} />
-          </Title>
-          <Lead>{t('ecosystem.lead')}</Lead>
-        </BandContent>
-      </Band>
-
       <Container>
-        <Card $openEdge="top">
-          <WorkspaceLogo />
-          <Products aria-label={t('ecosystem.workspace.label')}>
-            {WORKSPACE_PRODUCTS.map(({ key, icon }) => {
-              const name = t(`ecosystem.workspace.products.${key}`)
+        <Intro>
+          <div>
+            <Eyebrow>{t('ecosystem.eyebrow')}</Eyebrow>
+            <Title id="ecossistema-titulo">
+              <Trans i18nKey="ecosystem.title" components={{ highlight: <Highlight /> }} />
+            </Title>
+            <Lead>{t('ecosystem.lead')}</Lead>
+            <Action>
+              <CtaButton href="#contato">{t('ecosystem.cta')}</CtaButton>
+            </Action>
+          </div>
 
-              return (
-                <li key={key}>
-                  <ProductIcon src={icon} alt={name} title={name} loading="lazy" />
-                </li>
-              )
-            })}
-          </Products>
-        </Card>
+          <SolutionsOrbit />
+        </Intro>
+
+        <WorkspaceCard>
+          <WorkspaceLogo />
+          <WorkspaceApps />
+        </WorkspaceCard>
       </Container>
     </Section>
   )
@@ -103,46 +68,7 @@ export function EcosystemSection() {
 /* ── Estilos ─────────────────────────────────────────────────────────────── */
 
 const Section = styled.section`
-  padding: 0 0 clamp(3.5rem, 7vw, 6rem);
-`
-
-/*
- * A faixa ocupa a largura toda da página. A parte de cima do card (no "Sobre
- * nós") termina encostada nela, e a de baixo recomeça logo depois — por isso as
- * bordas laterais parecem atravessar a faixa.
- */
-const Band = styled.div`
-  background-color: var(--color-surface-band);
-  padding: clamp(2.5rem, 5.8vw, 4.75rem) var(--layout-gutter);
-`
-
-/* Largura do container: no desktop, o título cabe numa linha só, como no layout. */
-const BandContent = styled.div`
-  margin: 0 auto;
-  max-width: var(--layout-max-width);
-  text-align: center;
-`
-
-/* Mesma escala dos outros títulos do layout (Qurova 600). */
-const Title = styled.h2`
-  color: var(--color-text);
-  font-size: clamp(1.75rem, 3.57vw, 3.25rem);
-  font-weight: 600;
-  line-height: 1.23;
-  margin: 0 0 clamp(1rem, 2.2vw, 1.75rem);
-  text-wrap: balance;
-`
-
-const Highlight = styled.span`
-  color: var(--color-blue);
-`
-
-const Lead = styled.p`
-  font-size: clamp(1.0625rem, 1.99vw, 1.625rem);
-  line-height: 1.4;
-  margin: 0 auto;
-  max-width: 34em;
-  text-wrap: balance;
+  padding: clamp(4rem, 8vw, 6.5rem) 0 clamp(3.5rem, 7vw, 6rem);
 `
 
 const Container = styled.div`
@@ -151,12 +77,69 @@ const Container = styled.div`
   padding: 0 var(--layout-gutter);
 `
 
-const Card = styled(CardFrame)`
+/*
+ * No desktop a coluna de texto fica um pouco mais larga: o título precisa de
+ * ~570px para quebrar em duas linhas, como no layout.
+ */
+const Intro = styled.div`
+  align-items: center;
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4rem);
+  grid-template-columns: minmax(0, 1fr);
+
+  @media (min-width: 960px) {
+    gap: 2rem;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+`
+
+/* O rótulo acima do título, em caixa alta, como no layout. */
+const Eyebrow = styled.p`
+  color: var(--color-text);
+  font-size: clamp(0.875rem, 1.45vw, 1.1875rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin: 0 0 clamp(1.25rem, 2.6vw, 2rem);
+  text-transform: uppercase;
+`
+
+/*
+ * Mesma escala dos outros títulos (Qurova 600). A largura em em faz a quebra
+ * cair depois de "Tudo", como no layout.
+ */
+const Title = styled.h2`
+  color: var(--color-text);
+  font-size: clamp(1.75rem, 3.57vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.23;
+  margin: 0 0 clamp(1.25rem, 2.6vw, 2rem);
+  max-width: 13.5em;
+`
+
+const Highlight = styled.span`
+  color: var(--color-blue);
+`
+
+/* Medida que reproduz as quatro linhas do layout ("reunimos" / "que" / "produtividade,"). */
+const Lead = styled.p`
+  font-size: clamp(1.0625rem, 1.99vw, 1.625rem);
+  line-height: 1.4;
+  margin: 0;
+  max-width: 21.75em;
+`
+
+const Action = styled.div`
+  margin-top: clamp(2rem, 6.5vw, 5.25rem);
+`
+
+const WorkspaceCard = styled(CardFrame)`
   align-items: center;
   display: flex;
   flex-direction: column;
   gap: clamp(1.5rem, 3vw, 2.25rem);
-  padding: clamp(2rem, 5.3vw, 4.25rem) clamp(1rem, 4vw, 3rem) clamp(2rem, 4.2vw, 3.5rem);
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+  /* Embaixo, espaço de sobra para o balão com o nome do aplicativo não cruzar a borda. */
+  padding: clamp(2rem, 5.3vw, 4.25rem) clamp(1rem, 4vw, 3rem) clamp(3.25rem, 4.6vw, 3.75rem);
 `
 
 const LogoImage = styled.img`
@@ -171,25 +154,4 @@ const LogoFallback = styled.p`
   font-size: clamp(1.5rem, 3vw, 2.25rem);
   font-weight: 500;
   margin: 0;
-`
-
-/**
- * Fileira de ícones centralizada. No celular ela quebra em duas linhas; os
- * mínimos de tamanho e espaço foram escolhidos para caberem 7 ícones por linha
- * a partir de 360px (7 + 6), sem deixar um ícone órfão numa terceira linha.
- */
-const Products = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(0.625rem, 2.4vw, 1.75rem);
-  justify-content: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-`
-
-const ProductIcon = styled.img`
-  display: block;
-  height: clamp(1.875rem, 3.6vw, 2.875rem);
-  width: clamp(1.875rem, 3.6vw, 2.875rem);
 `

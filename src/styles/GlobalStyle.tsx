@@ -61,8 +61,6 @@ export const GlobalStyle = createGlobalStyle`
     /* Superfícies */
     --color-surface: #ffffff;
     --color-surface-muted: #f8fafc;
-    /* Faixas de ponta a ponta que cortam o card, como a do ecossistema. */
-    --color-surface-band: #f3f4f6;
     --color-border: #e8eaed;
     --color-border-warm: #dcb68c;
     --color-muted: #9aa5a0;
@@ -74,6 +72,8 @@ export const GlobalStyle = createGlobalStyle`
     --color-cta-background: #ffbd00;
     --color-cta-highlight: #ffcb3d;
     --color-cta-edge: #d99a00;
+    /* Borda inferior funda da pílula do menu (medida no layout: #e8a300 → #8c5f00). */
+    --color-cta-shade: #a87300;
     --color-cta-text: #ffffff;
 
     /*

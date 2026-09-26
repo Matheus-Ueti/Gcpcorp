@@ -53,6 +53,11 @@ export interface LanguageButtonProps {
  */
 export type BrandAccent = 'blue' | 'green' | 'yellow' | 'red'
 
+/** Props de estilo de qualquer elemento tingido por uma cor da marca. */
+export interface AccentStyleProps {
+  $accent: BrandAccent
+}
+
 /* ── Marca ───────────────────────────────────────────────────────────────── */
 
 /** Props do selo "Google Cloud Partner" (com o divisor que o separa do logo). */
@@ -66,22 +71,43 @@ export interface PartnerBadgeStyleProps {
   $height: string
 }
 
-/* ── Card com moldura ────────────────────────────────────────────────────── */
-
-/**
- * Lado do card que fica "aberto" (sem fio e sem canto arredondado), para a
- * moldura continuar na seção vizinha — como o card que a faixa do
- * ecossistema corta ao meio.
- */
-export interface CardFrameStyleProps {
-  $openEdge?: 'top' | 'bottom'
-}
-
 /* ── Seções ──────────────────────────────────────────────────────────────── */
 
 /** Props do marcador circular de cada etapa da jornada em `SolutionsGrid`. */
 export interface SolutionMarkerProps {
   $accent: BrandAccent
+}
+
+/**
+ * Chave de uma etapa da jornada "Da migração à IA" nas traduções: as três
+ * etapas (`solutions.stages.<key>`) e a faixa contínua de segurança.
+ */
+export type JourneyStageKey = 'migrate' | 'organizeData' | 'applyAi' | 'continuous'
+
+/** Uma etapa da jornada: produtos do Google Cloud usados nela, ícone e cor. */
+export interface JourneyStage {
+  key: JourneyStageKey
+  products: string[]
+  Icon: IconComponent
+  accent: BrandAccent
+}
+
+/** Uma das três etapas em sequência: além dos dados da etapa, a foto do painel. */
+export interface IllustratedJourneyStage extends JourneyStage {
+  /** URL da foto, importada de `assets/journey`. */
+  image: string
+}
+
+/** Props do painel fixo que mostra, com foto, a etapa da jornada em foco. */
+export interface JourneyShowcaseProps {
+  stages: IllustratedJourneyStage[]
+  /** Índice da etapa que cruza o meio da tela. */
+  activeIndex: number
+}
+
+/** Props de estilo de um elemento que muda quando está ativo (etapa em foco). */
+export interface ActiveStyleProps {
+  $isActive: boolean
 }
 
 /**
@@ -118,6 +144,101 @@ export interface WorkspaceProduct {
   key: WorkspaceProductKey
   /** URL do ícone oficial, importado de `assets/workspace`. */
   icon: string
+}
+
+/* ── Redes sociais ───────────────────────────────────────────────────────── */
+
+export type SocialNetworkKey = 'linkedin' | 'instagram'
+
+/** Uma rede social da GCP Corp., com a cor oficial que preenche o botão no hover. */
+export interface SocialNetwork {
+  /** Chave do rótulo acessível nas traduções (`brand.social.<key>`). */
+  key: SocialNetworkKey
+  /** Nome da rede, mostrado no balão — nome de marca, não se traduz. */
+  name: string
+  href: string
+  Icon: IconComponent
+  /** Qualquer `background` CSS: cor sólida ou degradê (o do Instagram). */
+  fill: string
+}
+
+/** Props dos botões de redes sociais do cabeçalho e do rodapé. */
+export interface SocialLinksProps {
+  /** Diâmetro de cada botão, em qualquer unidade CSS. */
+  size: string
+}
+
+export interface SocialLinkStyleProps {
+  $size: string
+}
+
+export interface SocialFillStyleProps {
+  $fill: string
+}
+
+/* ── Contato ─────────────────────────────────────────────────────────────── */
+
+/** Um canal de contato: o texto exibido e o link (`mailto:`, `tel:`). */
+export interface ContactLink {
+  text: string
+  href: string
+}
+
+/** Palavras que se revezam no título da chamada final (`contact.words.<key>`). */
+export type ContactWordKey = 'connected' | 'intelligent' | 'productive' | 'secure'
+
+export interface ContactWord {
+  key: ContactWordKey
+  accent: BrandAccent
+}
+
+/**
+ * Momento de cada palavra no revezamento: a da vez, a que acabou de sair
+ * (sobe e some) e as que esperam, escondidas abaixo.
+ */
+export type RotatingWordState = 'active' | 'leaving' | 'waiting'
+
+export interface RotatingWordStyleProps {
+  $state: RotatingWordState
+}
+
+/* ── Órbita de soluções ──────────────────────────────────────────────────── */
+
+export type SolutionKey = 'migration' | 'licensing' | 'ai' | 'cloud' | 'governance' | 'security'
+
+/** Uma solução na órbita: ícone, cor do anel e com quais outras ela se conecta. */
+export interface OrbitSolution {
+  /** Chave do título e da descrição nas traduções (`ecosystem.orbit.items.<key>`). */
+  key: SolutionKey
+  Icon: IconComponent
+  accent: BrandAccent
+  /** Soluções relacionadas: pulsam quando esta é aberta. */
+  related: SolutionKey[]
+}
+
+/** Estado visual de um nó quando alguma solução está aberta. */
+export type OrbitNodeState = 'idle' | 'selected' | 'related' | 'dimmed'
+
+/** Props de estilo de um nó da órbita. */
+export interface OrbitNodeStyleProps {
+  /** Posição do nó no anel, em graus (0 = direita, -90 = topo). */
+  $angle: number
+  $accent: BrandAccent
+  $state: OrbitNodeState
+}
+
+/** Props de um aplicativo clicável da fileira do Google Workspace. */
+export interface WorkspaceAppProps {
+  product: WorkspaceProduct
+  /** Nome já traduzido — texto alternativo do ícone e conteúdo do balão. */
+  name: string
+  isOpen: boolean
+  /** Abre o balão deste app (hover do mouse, foco pelo teclado). */
+  onOpen: () => void
+  /** Fecha o balão, se for o deste app que está aberto. */
+  onClose: () => void
+  /** Alterna o balão (toque, onde não existe hover). */
+  onToggle: () => void
 }
 
 /* ── Elemento Hero ───────────────────────────────────────────────────────── */

@@ -81,15 +81,6 @@ export function LayersIcon(props: IconProps) {
   )
 }
 
-export function StoreIcon(props: IconProps) {
-  return (
-    <OutlineIcon {...props}>
-      <path d="M5.6 8h12.8l-1 12.2a1 1 0 0 1-1 .8H7.6a1 1 0 0 1-1-.8L5.6 8z" />
-      <path d="M9 8V6.4a3 3 0 0 1 6 0V8" />
-    </OutlineIcon>
-  )
-}
-
 export function MailIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
@@ -99,35 +90,40 @@ export function MailIcon(props: IconProps) {
   )
 }
 
-/* ── Soluções ────────────────────────────────────────────────────────────── */
+/* ── Jornada "Da migração à IA" ──────────────────────────────────────────── */
 
-export function CloudIcon(props: IconProps) {
+/** Servidor com uma seta subindo para a nuvem; a base da nuvem abre para a seta entrar. */
+export function ServerCloudIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
-      <path d="M7 19a4.5 4.5 0 0 1-.4-8.98 5.5 5.5 0 0 1 10.6-1.2A4 4 0 0 1 17.5 19H7z" />
-      <path d="M12 16.5v-6" />
-      <path d="m9.5 13 2.5-2.5 2.5 2.5" />
+      <path d="M10.6 11H8.6a2.7 2.7 0 0 1-.25-5.39 3.4 3.4 0 0 1 6.55-.73A2.5 2.5 0 0 1 15.4 11h-2" />
+      <rect x="4" y="15" width="16" height="6" rx="1.6" />
+      <path d="M7.5 18h.01" />
+      <path d="M10.5 18h.01" />
+      <path d="M12 15V6.8" />
+      <path d="m10.3 8.5 1.7-1.7 1.7 1.7" />
     </OutlineIcon>
   )
 }
 
-export function ChartIcon(props: IconProps) {
+/** Banco de dados: o dado consolidado num só lugar (data warehouse). */
+export function DatabaseIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
-      <path d="M3.5 3.5v15a2 2 0 0 0 2 2h15" />
-      <path d="M7.5 16.5v-4" />
-      <path d="M12 16.5v-8" />
-      <path d="M16.5 16.5v-5.5" />
-      <path d="M20.5 16.5v-9" />
+      <ellipse cx="12" cy="5.5" rx="7.5" ry="2.5" />
+      <path d="M4.5 5.5v13c0 1.38 3.36 2.5 7.5 2.5s7.5-1.12 7.5-2.5v-13" />
+      <path d="M4.5 12c0 1.38 3.36 2.5 7.5 2.5s7.5-1.12 7.5-2.5" />
     </OutlineIcon>
   )
 }
 
-export function SparkIcon(props: IconProps) {
+/** Chip com a estrela de quatro pontas no centro: IA rodando em produção. */
+export function AiChipIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
-      <path d="M12 2.8 13.9 8 19 9.9 13.9 11.8 12 17l-1.9-5.2L5 9.9 10.1 8 12 2.8z" />
-      <path d="M18.5 15.5 19.4 18l2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9.9-2.5z" />
+      <rect x="5.5" y="5.5" width="13" height="13" rx="2" />
+      <path d="M9 2.5v3M15 2.5v3M9 18.5v3M15 18.5v3M2.5 9h3M2.5 15h3M18.5 9h3M18.5 15h3" />
+      <path d="M12 8.6c.3 1.8 1.6 3.1 3.4 3.4-1.8.3-3.1 1.6-3.4 3.4-.3-1.8-1.6-3.1-3.4-3.4 1.8-.3 3.1-1.6 3.4-3.4z" />
     </OutlineIcon>
   )
 }
@@ -166,6 +162,70 @@ export function TechnologyIcon(props: IconProps) {
       <path d="M8.5 20h7" />
       <path d="m9.8 8.2-2.4 2.05 2.4 2.05" />
       <path d="m14.2 8.2 2.4 2.05-2.4 2.05" />
+    </OutlineIcon>
+  )
+}
+
+/* ── Órbita de soluções ──────────────────────────────────────────────────── */
+
+/** Banco de dados com uma seta saindo: dados indo para outro lugar. */
+export function MigrationIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <ellipse cx="8" cy="5.5" rx="5" ry="2" />
+      <path d="M3 5.5v11c0 1.1 2.24 2 5 2s5-.9 5-2v-11" />
+      <path d="M3 11c0 1.1 2.24 2 5 2s5-.9 5-2" />
+      <path d="M15.5 12h6" />
+      <path d="m18.5 9 3 3-3 3" />
+    </OutlineIcon>
+  )
+}
+
+export function CheckIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <path d="m4.5 12.5 5 5L19.5 7" />
+    </OutlineIcon>
+  )
+}
+
+/** Estrela de quatro pontas preenchida, o símbolo usual de IA. */
+export function SparkleIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props} fill="currentColor" stroke="none">
+      <path d="M12 3c.7 5 3.9 8.3 9 9-5.1.7-8.3 4-9 9-.7-5-3.9-8.3-9-9 5.1-.7 8.3-4 9-9z" />
+    </OutlineIcon>
+  )
+}
+
+/** Nuvem simples, sem seta: a nuvem como produto, não como migração. */
+export function CloudOutlineIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <path d="M7 18.5a4.5 4.5 0 0 1-.4-8.98 5.5 5.5 0 0 1 10.6-1.2A4 4 0 0 1 17.5 18.5H7z" />
+    </OutlineIcon>
+  )
+}
+
+/** Três nós interligados: estrutura, políticas, controle. */
+export function NetworkIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <circle cx="12" cy="5.5" r="2.2" />
+      <circle cx="5.5" cy="17" r="2.2" />
+      <circle cx="18.5" cy="17" r="2.2" />
+      <path d="M10.9 7.4 6.6 15.1" />
+      <path d="m13.1 7.4 4.3 7.7" />
+      <path d="M7.7 17h8.6" />
+    </OutlineIcon>
+  )
+}
+
+export function CloseIcon(props: IconProps) {
+  return (
+    <OutlineIcon {...props}>
+      <path d="M6 6l12 12" />
+      <path d="M18 6 6 18" />
     </OutlineIcon>
   )
 }

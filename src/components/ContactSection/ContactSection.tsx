@@ -1,0 +1,194 @@
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled, { css } from 'styled-components'
+import type {
+  AccentStyleProps,
+  ContactWord,
+  RotatingWordState,
+  RotatingWordStyleProps,
+} from '../../types'
+
+/**
+ * As palavras resumem o que as seções anteriores prometem (integração, IA,
+ * produtividade e segurança), cada uma com a cor da marca que a representa.
+ */
+const WORDS: ContactWord[] = [
+  { key: 'connected', accent: 'blue' },
+  { key: 'intelligent', accent: 'yellow' },
+  { key: 'productive', accent: 'green' },
+  { key: 'secure', accent: 'red' },
+]
+
+/** Tempo que cada palavra fica no título, em ms. */
+const WORD_DURATION_MS = 2600
+
+function wordState(index: number, activeIndex: number): RotatingWordState {
+  if (index === activeIndex) {
+    return 'active'
+  }
+  const previousIndex = (activeIndex - 1 + WORDS.length) % WORDS.length
+  return index === previousIndex ? 'leaving' : 'waiting'
+}
+
+/**
+ * Chamada final antes do rodapé: título com uma palavra que se reveza e um
+ * texto curto. É o destino do "Contato" do menu e dos botões "Fale com a GCP
+ * Corp." do site; e-mail e telefone ficam no rodapé, logo abaixo.
+ *
+ * Leitores de tela ouvem a frase completa uma vez só; o revezamento visual
+ * fica escondido deles para não ser anunciado a cada troca. Com movimento
+ * reduzido, a palavra não troca.
+ */
+export function ContactSection() {
+  const { t } = useTranslation()
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return
+    }
+    const intervalId = window.setInterval(() => {
+      setActiveIndex((index) => (index + 1) % WORDS.length)
+    }, WORD_DURATION_MS)
+    return () => window.clearInterval(intervalId)
+  }, [])
+
+  return (
+    <Section id="contato" aria-labelledby="contato-titulo">
+      <Container>
+        <Eyebrow>{t('contact.eyebrow')}</Eyebrow>
+
+        <Title id="contato-titulo">
+          <VisuallyHidden>{t('contact.titleFull')}</VisuallyHidden>
+          <span aria-hidden="true">
+            {t('contact.titleLead')}
+            <WordSlot>
+              {WORDS.map(({ key }, index) => (
+                <Word key={key} $state={wordState(index, activeIndex)}>
+                  {t(`contact.words.${key}`)}
+                </Word>
+              ))}
+            </WordSlot>
+            <WordBar $accent={WORDS[activeIndex].accent} />
+          </span>
+        </Title>
+
+        <Lead>{t('contact.lead')}</Lead>
+      </Container>
+    </Section>
+  )
+}
+
+/* ── Estilos ─────────────────────────────────────────────────────────────── */
+
+const Section = styled.section`
+  padding: clamp(4.5rem, 9vw, 7rem) 0;
+`
+
+const Container = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: var(--layout-max-width);
+  padding: 0 var(--layout-gutter);
+  text-align: center;
+`
+
+const Eyebrow = styled.p`
+  color: var(--color-text);
+  font-size: clamp(0.875rem, 1.45vw, 1.1875rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin: 0 0 clamp(1rem, 2vw, 1.5rem);
+  text-transform: uppercase;
+`
+
+const Title = styled.h2`
+  color: var(--color-text-strong);
+  font-size: clamp(2.25rem, 1.5rem + 3.2vw, 4rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 1.5rem;
+`
+
+const VisuallyHidden = styled.span`
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+`
+
+/*
+ * Uma linha só para a palavra: as palavras ficam empilhadas nela e o corte
+ * (overflow) esconde as que estão entrando por baixo e saindo por cima. O
+ * respiro embaixo evita cortar a perna do "g" e do "p".
+ */
+const WordSlot = styled.span`
+  color: var(--color-blue);
+  display: block;
+  height: 1.3em;
+  overflow: hidden;
+  position: relative;
+`
+
+/*
+ * A da vez sobe de baixo com um leve "quique"; a anterior sobe e some. As que
+ * esperam voltam para baixo sem transição — invisíveis, então o salto não
+ * aparece — e por isso toda palavra nova entra sempre pelo mesmo lado.
+ */
+const WORD_STATES = {
+  active: css`
+    opacity: 1;
+    transform: translateY(0);
+  `,
+  leaving: css`
+    opacity: 0;
+    transform: translateY(-110%);
+  `,
+  waiting: css`
+    opacity: 0;
+    transform: translateY(110%);
+    transition: none;
+  `,
+}
+
+const Word = styled.span<RotatingWordStyleProps>`
+  inset: 0;
+  position: absolute;
+  transition:
+    opacity 0.45s ease,
+    transform 0.75s cubic-bezier(0.34, 1.45, 0.64, 1);
+  white-space: nowrap;
+
+  ${({ $state }) => WORD_STATES[$state]}
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+`
+
+/** Traço sob a palavra, na cor da marca que ela representa. */
+const WordBar = styled.span<AccentStyleProps>`
+  background-color: ${({ $accent }) => `var(--color-${$accent})`};
+  border-radius: 999px;
+  display: block;
+  height: 0.3rem;
+  margin: 0.35rem auto 0;
+  transition: background-color 0.45s ease;
+  width: 3.5rem;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+`
+
+const Lead = styled.p`
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.1875rem);
+  margin: 0;
+  max-width: 38rem;
+  text-wrap: pretty;
+`

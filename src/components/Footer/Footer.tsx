@@ -1,8 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import logoGcpcorp from '../../assets/logo-gcpcorp.svg'
-import { InstagramIcon, LinkedInIcon, MailIcon, MapPinIcon, PhoneIcon } from '../icons/Icons'
+import { CONTACT_EMAIL, CONTACT_PHONE } from '../../data/contact'
+import { MailIcon, MapPinIcon, PhoneIcon } from '../icons/Icons'
 import { PartnerBadge } from '../PartnerBadge/PartnerBadge'
+import { SocialLinks } from '../SocialLinks/SocialLinks'
 import type { IconComponent } from '../../types'
 
 const LINK_GROUPS = [
@@ -11,7 +13,6 @@ const LINK_GROUPS = [
     links: [
       { key: 'home', href: '#inicio' },
       { key: 'about', href: '#sobre' },
-      { key: 'marketplace', href: '#marketplace' },
     ],
   },
   {
@@ -25,15 +26,7 @@ const LINK_GROUPS = [
   },
 ] as const
 
-const SOCIAL_ICONS = [
-  { key: 'linkedin', href: 'https://www.linkedin.com/', Icon: LinkedInIcon },
-  { key: 'instagram', href: 'https://www.instagram.com/', Icon: InstagramIcon },
-] as const
-
-/**
- * Dados de contato provisórios — substituir pelos oficiais da GCP Corp.
- * Os `href` de e-mail e telefone precisam acompanhar a troca.
- */
+/** E-mail e telefone vêm de `data/contact` (provisórios); a cidade vem das traduções. */
 interface ContactDetail {
   Icon: IconComponent
   key: string
@@ -42,13 +35,8 @@ interface ContactDetail {
 }
 
 const CONTACT_DETAILS: ContactDetail[] = [
-  {
-    Icon: MailIcon,
-    key: 'email',
-    text: 'contato@gcpcorp.com.br',
-    href: 'mailto:contato@gcpcorp.com.br',
-  },
-  { Icon: PhoneIcon, key: 'phone', text: '+55 11 0000-0000', href: 'tel:+551100000000' },
+  { Icon: MailIcon, key: 'email', ...CONTACT_EMAIL },
+  { Icon: PhoneIcon, key: 'phone', ...CONTACT_PHONE },
   { Icon: MapPinIcon, key: 'location', text: null, href: null },
 ]
 
@@ -58,7 +46,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <Wrapper id="contato">
+    <Wrapper>
       <Container>
         <Top>
           <BrandColumn>
@@ -67,20 +55,7 @@ export function Footer() {
               <PartnerBadge height="1.875rem" />
             </Lockup>
             <BrandText>{t('footer.brandText')}</BrandText>
-            <SocialList>
-              {SOCIAL_ICONS.map(({ key, href, Icon }) => (
-                <li key={href}>
-                  <SocialLinkItem
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    aria-label={t(`footer.social.${key}`)}
-                  >
-                    <Icon />
-                  </SocialLinkItem>
-                </li>
-              ))}
-            </SocialList>
+            <SocialLinks size="2.125rem" />
           </BrandColumn>
 
           {LINK_GROUPS.map(({ key: groupKey, links }) => (
@@ -181,39 +156,6 @@ const Logo = styled.img`
 const BrandText = styled.p`
   font-size: 0.9375rem;
   margin: 0 0 1.25rem;
-`
-
-const SocialList = styled.ul`
-  display: flex;
-  gap: 0.5rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-`
-
-const SocialLinkItem = styled.a`
-  align-items: center;
-  background-color: var(--color-blue);
-  border-radius: 50%;
-  color: var(--color-surface);
-  display: inline-flex;
-  height: 2.125rem;
-  justify-content: center;
-  transition: background-color 0.2s ease;
-  width: 2.125rem;
-
-  &:hover {
-    background-color: var(--color-blue-dark);
-  }
-
-  &:focus-visible {
-    outline: 3px solid var(--color-text-strong);
-    outline-offset: 2px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
 `
 
 const Column = styled.div``

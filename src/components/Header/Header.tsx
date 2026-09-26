@@ -1,16 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import logoGcpcorp from '../../assets/logo-gcpcorp.svg'
-import {
-  HomeIcon,
-  InstagramIcon,
-  LayersIcon,
-  LinkedInIcon,
-  MailIcon,
-  StoreIcon,
-  UsersIcon,
-} from '../icons/Icons'
+import { HomeIcon, LayersIcon, MailIcon, UsersIcon } from '../icons/Icons'
 import { PartnerBadge } from '../PartnerBadge/PartnerBadge'
+import { SocialLinks } from '../SocialLinks/SocialLinks'
 import type { Language, LanguageButtonProps } from '../../types'
 
 const LANGUAGES: Language[] = ['pt', 'en', 'es']
@@ -19,13 +12,7 @@ const NAV_ICONS = [
   { key: 'home', href: '#inicio', Icon: HomeIcon },
   { key: 'about', href: '#sobre', Icon: UsersIcon },
   { key: 'solutions', href: '#solucoes', Icon: LayersIcon },
-  { key: 'marketplace', href: '#marketplace', Icon: StoreIcon },
   { key: 'contact', href: '#contato', Icon: MailIcon },
-] as const
-
-const SOCIAL_ICONS = [
-  { key: 'linkedin', href: 'https://www.linkedin.com/', Icon: LinkedInIcon },
-  { key: 'instagram', href: 'https://www.instagram.com/', Icon: InstagramIcon },
 ] as const
 
 /** Cabeçalho fixo: logo, menu principal, redes sociais e troca de idioma. */
@@ -57,20 +44,7 @@ export function Header() {
         </Nav>
 
         <Actions>
-          <SocialList>
-            {SOCIAL_ICONS.map(({ key, href, Icon }) => (
-              <li key={href}>
-                <SocialLink
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  aria-label={t(`header.social.${key}`)}
-                >
-                  <Icon />
-                </SocialLink>
-              </li>
-            ))}
-          </SocialList>
+          <SocialLinks size="2.25rem" />
 
           <LanguageSwitcher role="group" aria-label={t('header.languageSwitcher')}>
             {LANGUAGES.map((option) => (
@@ -104,9 +78,8 @@ const Wrapper = styled.header`
 /*
  * Logo + selo Partner, menu e ações precisam caber numa linha só na largura de
  * design (container de 1152px), como no layout — em TODOS os idiomas. O mais
- * longo é o espanhol ("Sobre nosotros", "Soluciones", "Contacto"): medido no
- * navegador, sobram ~22px nele (e ~80px em PT/EN). Por isso os espaços do menu
- * e da marca são enxutos; ao mexer neles ou nos rótulos, confira o espanhol.
+ * longo é o espanhol ("Sobre nosotros", "Soluciones", "Contacto"): ao mexer
+ * nos espaços do menu e da marca ou nos rótulos, confira o espanhol.
  * Abaixo da largura de design, os grupos quebram linha.
  */
 const Container = styled.div`
@@ -164,14 +137,24 @@ const Nav = styled.nav`
   }
 `
 
+/**
+ * Pílula com relevo, como no layout: brilho claro no topo e borda funda
+ * embaixo. O relevo é todo interno (degradê + sombras inset) porque o <Nav>
+ * rola na horizontal no celular, e o overflow cortaria uma sombra externa. O
+ * padding de baixo é maior para o texto continuar centrado acima da borda.
+ */
 const NavList = styled.ul`
-  background-color: var(--color-yellow);
+  background: linear-gradient(var(--color-cta-highlight), var(--color-cta-background) 30%);
   border-radius: 999px;
+  box-shadow:
+    inset 0 -3px 0 var(--color-cta-shade),
+    inset 0 -5px 3px color-mix(in srgb, var(--color-cta-edge) 70%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--color-surface) 45%, transparent);
   display: flex;
   gap: 0.125rem;
   list-style: none;
   margin: 0;
-  padding: 0.375rem;
+  padding: 0.375rem 0.375rem 0.5rem;
   width: max-content;
 `
 
@@ -207,39 +190,6 @@ const Actions = styled.div`
   display: flex;
   flex-shrink: 0;
   gap: 0.75rem;
-`
-
-const SocialList = styled.ul`
-  display: flex;
-  gap: 0.375rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-`
-
-const SocialLink = styled.a`
-  align-items: center;
-  background-color: var(--color-blue);
-  border-radius: 50%;
-  color: var(--color-surface);
-  display: inline-flex;
-  height: 2.25rem;
-  justify-content: center;
-  transition: background-color 0.2s ease;
-  width: 2.25rem;
-
-  &:hover {
-    background-color: var(--color-blue-dark);
-  }
-
-  &:focus-visible {
-    outline: 3px solid var(--color-text-strong);
-    outline-offset: 2px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
 `
 
 const LanguageSwitcher = styled.div`

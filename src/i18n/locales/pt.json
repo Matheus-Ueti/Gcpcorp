@@ -1,7 +1,11 @@
 {
   "brand": {
     "logoAlt": "GCP Corp.",
-    "partnerBadgeAlt": "Google Cloud Partner"
+    "partnerBadgeAlt": "Google Cloud Partner",
+    "social": {
+      "linkedin": "LinkedIn da GCP Corp.",
+      "instagram": "Instagram da GCP Corp."
+    }
   },
   "header": {
     "mainNav": "Menu principal",
@@ -11,12 +15,7 @@
       "home": "Início",
       "about": "Sobre nós",
       "solutions": "Soluções",
-      "marketplace": "Marketplace",
       "contact": "Contato"
-    },
-    "social": {
-      "linkedin": "LinkedIn da GCP Corp.",
-      "instagram": "Instagram da GCP Corp."
     }
   },
   "hero": {
@@ -51,8 +50,41 @@
     }
   },
   "ecosystem": {
+    "eyebrow": "Nossas soluções",
     "title": "Um ecossistema. <highlight>Tudo conectado ao seu negócio.</highlight>",
     "lead": "Do cloud à inteligência artificial, reunimos diferentes soluções para empresas que buscam mais integração, produtividade, segurança e novas possibilidades.",
+    "cta": "Encontre a solução para sua empresa",
+    "orbit": {
+      "label": "Soluções da GCP Corp.",
+      "related": "Conecta com",
+      "close": "Fechar",
+      "items": {
+        "migration": {
+          "title": "Migração",
+          "description": "Levamos sistemas e dados para a nuvem com planejamento e o mínimo de interrupção."
+        },
+        "licensing": {
+          "title": "Licenciamento",
+          "description": "Contratação e gestão das licenças Google Workspace e Google Cloud, sem complicação."
+        },
+        "ai": {
+          "title": "IA",
+          "description": "Inteligência artificial aplicada aos processos do seu negócio, com Gemini e Vertex AI."
+        },
+        "cloud": {
+          "title": "Cloud",
+          "description": "Infraestrutura no Google Cloud dimensionada para crescer junto com a sua empresa."
+        },
+        "governance": {
+          "title": "Governança",
+          "description": "Acessos, políticas e custos sob controle, com visibilidade de todo o ambiente."
+        },
+        "security": {
+          "title": "Cybersegurança",
+          "description": "Proteção de dados, identidades e acessos para trabalhar com tranquilidade."
+        }
+      }
+    },
     "workspace": {
       "label": "Produtos do Google Workspace",
       "products": {
@@ -76,6 +108,7 @@
     "title": "Da migração à IA, <highlight>uma etapa de cada vez</highlight>",
     "lead": "Cada fase entrega valor sozinha e prepara a seguinte. Você entra no ponto em que está.",
     "step": "Etapa {{number}}",
+    "stepOf": "Etapa {{number}} de {{total}}",
     "stages": {
       "migrate": {
         "title": "Migrar",
@@ -95,14 +128,17 @@
       "description": "Em todas as etapas: hardening, monitoramento e um time acompanhando seu ambiente no dia a dia."
     }
   },
-  "metrics": {
-    "statement": "Dez anos ajudando empresas brasileiras a tirar mais valor do <highlight>Google Cloud</highlight>.",
-    "items": {
-      "projects": "Projetos entregues",
-      "years": "Anos de Google Cloud",
-      "clients": "Clientes atendidos",
-      "support": "Suporte gerenciado"
-    }
+  "contact": {
+    "eyebrow": "Vamos conversar",
+    "titleLead": "Sua empresa mais",
+    "titleFull": "Sua empresa mais conectada, inteligente, produtiva e segura",
+    "words": {
+      "connected": "conectada",
+      "intelligent": "inteligente",
+      "productive": "produtiva",
+      "secure": "segura"
+    },
+    "lead": "Conte o desafio do seu negócio. Um especialista da GCP Corp. entende o cenário com você e indica o caminho, da migração à IA."
   },
   "footer": {
     "logoAlt": "GCP Corp.",
@@ -111,8 +147,7 @@
       "company": {
         "title": "Empresa",
         "home": "Início",
-        "about": "Sobre nós",
-        "marketplace": "Marketplace"
+        "about": "Sobre nós"
       },
       "solutions": {
         "title": "Soluções",
@@ -125,10 +160,6 @@
         "title": "Contato",
         "location": "São Paulo, SP"
       }
-    },
-    "social": {
-      "linkedin": "LinkedIn da GCP Corp.",
-      "instagram": "Instagram da GCP Corp."
     },
     "copyright": "© {{year}} GCP Corp. Todos os direitos reservados.",
     "privacyPolicy": "Política de privacidade",
