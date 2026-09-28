@@ -40,6 +40,11 @@ export interface OriginFillGeometry {
 
 export type Language = 'pt' | 'en' | 'es'
 
+/** Props de estilo do menu do celular e do botão que o abre (☰ / ✕). */
+export interface MenuStyleProps {
+  $isOpen: boolean
+}
+
 /** Props do botão de idioma no seletor PT | EN | ES. */
 export interface LanguageButtonProps {
   $isActive: boolean

@@ -120,15 +120,33 @@ const Wrapper = styled.footer`
 const Container = styled.div`
   margin: 0 auto;
   max-width: var(--layout-max-width);
-  padding: 4rem var(--layout-gutter) 2rem;
+  padding: clamp(3rem, 7vw, 4rem) var(--layout-gutter) 2rem;
 `
 
+/*
+ * Abaixo de 900px: marca e contato ocupam a linha inteira, e as duas colunas
+ * de links ficam lado a lado — empilhar tudo deixava o rodapé longo demais no
+ * celular.
+ */
 const Top = styled.div`
   display: grid;
-  gap: 2.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 2rem 1.5rem;
+  /* "Soluções" tem os rótulos mais longos: fica com a coluna mais larga. */
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+
+  > :first-child,
+  > :last-child {
+    grid-column: 1 / -1;
+  }
 
   @media (min-width: 900px) {
+    gap: 2.5rem;
+
+    > :first-child,
+    > :last-child {
+      grid-column: auto;
+    }
+
     /* A coluna da marca ganha mais espaço que as de links. */
     grid-template-columns: 1.6fr 1fr 1fr 1fr;
   }

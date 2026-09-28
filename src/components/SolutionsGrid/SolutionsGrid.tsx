@@ -358,6 +358,11 @@ const Continuous = styled.div`
   margin-top: 3rem;
   padding: 1.75rem;
 
+  @media (max-width: 639px) {
+    gap: 1.25rem;
+    padding: 1.5rem;
+  }
+
   ${StageTitle} {
     font-size: 1.125rem;
   }
@@ -371,8 +376,14 @@ const Continuous = styled.div`
   }
 `
 
+/* No celular o ícone vai para cima do título, para o texto usar a largura toda. */
 const ContinuousMain = styled.div`
   align-items: flex-start;
   display: flex;
   gap: 1.25rem;
+
+  @media (max-width: 639px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
 `

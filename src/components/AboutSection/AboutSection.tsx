@@ -105,7 +105,7 @@ const Container = styled.div`
 `
 
 const Card = styled(CardFrame)`
-  padding: clamp(1.75rem, 5.5vw, 4.5rem);
+  padding: clamp(1.25rem, 5.5vw, 4.5rem);
 `
 
 const Lockup = styled.div`
@@ -172,12 +172,27 @@ const Pillars = styled.ul`
   }
 `
 
-const Pillar = styled.li``
+/*
+ * Empilhados (celular e tablet), cada pilar é uma linha: ícone à esquerda e,
+ * ao lado dele, título e texto — o texto usa a largura toda em vez de ficar
+ * preso na medida curta das colunas do desktop.
+ */
+const Pillar = styled.li`
+  @media (max-width: 859px) {
+    column-gap: 1rem;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+`
 
 const PillarHead = styled.div`
   align-items: center;
   display: flex;
   gap: 0.75rem;
+
+  @media (max-width: 859px) {
+    display: contents;
+  }
 `
 
 /**
@@ -204,6 +219,10 @@ const PillarIcon = styled.span<PillarStyleProps>`
     height: 48%;
     width: 48%;
   }
+
+  @media (max-width: 859px) {
+    grid-row: span 2;
+  }
 `
 
 const PillarTitle = styled.h3`
@@ -213,6 +232,10 @@ const PillarTitle = styled.h3`
   line-height: 1.25;
   margin: 0;
   white-space: nowrap;
+
+  @media (max-width: 859px) {
+    align-self: end;
+  }
 `
 
 /**
@@ -244,6 +267,11 @@ const PillarText = styled.p`
   margin: 0.875rem 0 0;
   max-width: 12em;
   text-wrap: balance;
+
+  @media (max-width: 859px) {
+    margin-top: 0.25rem;
+    max-width: 24rem;
+  }
 `
 
 /** Fecho do card: duas linhas, a primeira com a frase em destaque. */

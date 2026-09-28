@@ -9,6 +9,10 @@
   },
   "header": {
     "mainNav": "Main menu",
+    "menu": {
+      "open": "Open menu",
+      "close": "Close menu"
+    },
     "languageSwitcher": "Site language",
     "logoAlt": "GCP Corp.",
     "nav": {
