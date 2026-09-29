@@ -48,8 +48,23 @@ const RING_BLEED = 0.062
 const CARD_LINE = 0.89
 const TITLE_OFFSET = 0.105
 
+/**
+ * Onde o anel começa, em fração da largura do container: o texto ocupa o que
+ * está à esquerda dessa linha, o anel o que está à direita.
+ *
+ * É isso que impede o anel de passar por trás do título. Antes o anel crescia
+ * com a largura da TELA (61,4vw) enquanto o texto ficava numa coluna
+ * centralizada travada em 1200px — então, entre ~980px e ~1700px (a faixa de
+ * um notebook), o anel alcançava o texto. A fração foi medida no layout
+ * aprovado e agora vale em qualquer largura.
+ */
+const RING_START = 0.6
+
+/** Abaixo desta largura o anel não aparece (mesmo corte do menu do celular). */
+const MOBILE = '(max-width: 639px)'
+
 const Section = styled.section`
-  /* Mobile: o anel entra depois do texto, na largura da tela. */
+  /* Tablet: o anel entra depois do texto, na largura da tela. */
   --ring-size: min(100vw, 32rem);
   --ring-top: 1rem;
 
@@ -58,9 +73,32 @@ const Section = styled.section`
   position: relative;
   z-index: 1;
 
+  /* Sem o anel, o respiro até o card "Sobre" tem que vir daqui. */
+  @media ${MOBILE} {
+    padding-bottom: 3rem;
+  }
+
   @media (min-width: 960px) {
-    /* 61,4% da largura da página, como no layout — com teto para telas largas. */
-    --ring-size: clamp(34rem, 61.4vw, 56rem);
+    /*
+     * O anel preenche o que sobra da tela depois da coluna de texto, mais a
+     * sobra que vaza pela borda direita. Em ordem: borda esquerda do container
+     * (a gutter, mais a metade da folga quando a página passa da largura
+     * máxima), depois a coluna de texto, e o que resta é o anel.
+     */
+    --ring-size: min(
+      56rem,
+      calc(
+        (
+            100vw - var(--layout-gutter) - max(0px, (100vw - var(--layout-max-width)) / 2) -
+              ${RING_START} *
+              min(
+                100vw - var(--layout-gutter) * 2,
+                var(--layout-max-width) - var(--layout-gutter) * 2
+              )
+          ) /
+          ${1 - RING_BLEED}
+      )
+    );
 
     min-height: calc(var(--ring-top) + var(--ring-size) * ${CARD_LINE});
     padding-top: calc(var(--ring-top) + var(--ring-size) * ${TITLE_OFFSET});
@@ -121,8 +159,11 @@ const Lead = styled.p`
 `
 
 /**
- * Mobile: o anel entra depois do texto, encostado à direita, sangrando pela
- * borda da tela e por cima do card seguinte (margem inferior negativa).
+ * No celular o anel não aparece: ocupava quase uma tela inteira só de
+ * decoração, empurrando o conteúdo para baixo.
+ *
+ * Tablet: entra depois do texto, encostado à direita, sangrando pela borda da
+ * tela e por cima do card seguinte (margem inferior negativa).
  *
  * Desktop: sai do fluxo e fica ancorado à borda direita da página — é isso que
  * o faz vazar para fora em qualquer largura, como no layout. A sobra lateral é
@@ -133,6 +174,10 @@ const Artwork = styled.div`
     auto;
   pointer-events: none;
   width: var(--ring-size);
+
+  @media ${MOBILE} {
+    display: none;
+  }
 
   @media (min-width: 960px) {
     margin: 0;

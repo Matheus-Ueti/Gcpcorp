@@ -101,9 +101,19 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
 
-  /* Compensa o header fixo ao pular para âncoras como #solucoes. */
+  /*
+   * Ao clicar no menu, a página desliza até a seção em vez de saltar. O
+   * scroll-padding compensa o cabeçalho fixo, que cobriria o topo da seção.
+   */
   html {
+    scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   body {
