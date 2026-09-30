@@ -6,6 +6,7 @@ import migrateImage from '../../assets/journey/migrate.webp'
 import organizeDataImage from '../../assets/journey/organizeData.webp'
 import { AiChipIcon, DatabaseIcon, ServerCloudIcon, ShieldIcon } from '../icons/Icons'
 import { JourneyShowcase } from '../JourneyShowcase/JourneyShowcase'
+import { ProductChips } from '../ProductChips/ProductChips'
 import type {
   ActiveStyleProps,
   BrandAccent,
@@ -29,21 +30,21 @@ import type {
 const JOURNEY_STAGES: IllustratedJourneyStage[] = [
   {
     key: 'migrate',
-    products: ['Compute Engine', 'Google Kubernetes Engine', 'Cloud Storage'],
+    products: ['computeEngine', 'gke', 'cloudStorage'],
     Icon: ServerCloudIcon,
     accent: 'blue',
     image: migrateImage,
   },
   {
     key: 'organizeData',
-    products: ['BigQuery', 'Dataflow', 'Looker'],
+    products: ['bigQuery', 'dataflow', 'looker'],
     Icon: DatabaseIcon,
     accent: 'green',
     image: organizeDataImage,
   },
   {
     key: 'applyAi',
-    products: ['Vertex AI', 'Gemini', 'Document AI'],
+    products: ['vertexAi', 'gemini', 'documentAi'],
     Icon: AiChipIcon,
     accent: 'yellow',
     image: applyAiImage,
@@ -52,7 +53,7 @@ const JOURNEY_STAGES: IllustratedJourneyStage[] = [
 
 const CONTINUOUS_STAGE: JourneyStage = {
   key: 'continuous',
-  products: ['Security Command Center', 'Cloud IAM', 'Cloud Monitoring'],
+  products: ['securityCommandCenter', 'cloudIam', 'cloudMonitoring'],
   Icon: ShieldIcon,
   accent: 'red',
 }
@@ -127,11 +128,7 @@ export function SolutionsGrid() {
                 </StageHead>
                 <StageTitle>{t(`solutions.stages.${key}.title`)}</StageTitle>
                 <StageText>{t(`solutions.stages.${key}.description`)}</StageText>
-                <ProductList>
-                  {products.map((product) => (
-                    <Product key={product}>{product}</Product>
-                  ))}
-                </ProductList>
+                <ProductChips products={products} accent={accent} />
               </Stage>
             ))}
           </Stages>
@@ -152,11 +149,7 @@ export function SolutionsGrid() {
               <StageText>{t('solutions.continuous.description')}</StageText>
             </div>
           </ContinuousMain>
-          <ProductList>
-            {CONTINUOUS_STAGE.products.map((product) => (
-              <Product key={product}>{product}</Product>
-            ))}
-          </ProductList>
+          <ProductChips products={CONTINUOUS_STAGE.products} accent={CONTINUOUS_STAGE.accent} />
         </Continuous>
       </Container>
     </Section>
@@ -308,27 +301,6 @@ const StageText = styled.p`
   max-width: 32rem;
 `
 
-const ProductList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-`
-
-/** Nomes de produtos reais do Google Cloud — a evidência concreta da etapa. */
-const Product = styled.li`
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  color: var(--color-text);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  padding: 0.3125rem 0.75rem;
-  white-space: nowrap;
-`
-
 /*
  * A coluna estica até a altura da lista de etapas; o painel dentro dela é que
  * fica fixo (sticky). Se o próprio painel esticasse, não haveria espaço para
@@ -371,9 +343,8 @@ const Continuous = styled.div`
     margin-bottom: 0;
   }
 
-  ${Product} {
-    background-color: var(--color-surface-muted);
-  }
+  /* A faixa já é branca: as tags precisam de um fundo mais fundo para separar. */
+  --chip-background: var(--color-surface-muted);
 `
 
 /* No celular o ícone vai para cima do título, para o texto usar a largura toda. */

@@ -113,6 +113,20 @@
     "lead": "Cada etapa entrega valor por sí sola y prepara la siguiente. Empiezas desde donde estás.",
     "step": "Etapa {{number}}",
     "stepOf": "Etapa {{number}} de {{total}}",
+    "products": {
+      "computeEngine": "Máquinas virtuales en Google Cloud, del tamaño que tu operación necesite.",
+      "gke": "Ejecuta tus sistemas en contenedores y escala solo según la demanda.",
+      "cloudStorage": "Almacenamiento de archivos y copias de seguridad, con pago por uso.",
+      "bigQuery": "Analiza grandes volúmenes de datos en segundos, sin servidores que administrar.",
+      "dataflow": "Mueve y transforma datos entre sistemas, de forma continua y automática.",
+      "looker": "Paneles e informes que toda la empresa lee desde la misma fuente.",
+      "vertexAi": "Plataforma para crear, entrenar y llevar modelos de IA a producción.",
+      "gemini": "El modelo de IA de Google, aplicado al contenido y los procesos de la empresa.",
+      "documentAi": "Lee facturas, contratos y formularios y los convierte en datos estructurados.",
+      "securityCommandCenter": "Reúne en un solo panel los riesgos y las brechas de todo el entorno.",
+      "cloudIam": "Define quién accede a qué, dando a cada persona solo el permiso necesario.",
+      "cloudMonitoring": "Vigila el rendimiento y la disponibilidad, y avisa antes de que sea un problema."
+    },
     "stages": {
       "migrate": {
         "title": "Migrar",
@@ -130,6 +144,27 @@
     "continuous": {
       "title": "Seguridad y soporte gestionado",
       "description": "En todas las etapas: hardening, monitoreo y un equipo acompañando tu entorno día a día."
+    }
+  },
+  "testimonials": {
+    "label": "Testimonios de clientes",
+    "eyebrow": "Quienes ya hicieron este camino",
+    "items": {
+      "industry": {
+        "quote": "Migramos toda la operación a Google Cloud sin perder un solo día de producción.",
+        "company": "Industria Ejemplo",
+        "role": "Dirección de TI · migración de infraestructura"
+      },
+      "retail": {
+        "quote": "Por primera vez toda la dirección mira el mismo número al mismo tiempo.",
+        "company": "Comercio Ejemplo",
+        "role": "Gerencia de Datos · almacén de datos y paneles"
+      },
+      "services": {
+        "quote": "La IA dejó de ser tema de reunión y pasó a ser parte del proceso de cada día.",
+        "company": "Servicios Ejemplo",
+        "role": "Dirección de Operaciones · IA aplicada a la atención"
+      }
     }
   },
   "contact": {

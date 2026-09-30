@@ -113,6 +113,20 @@
     "lead": "Each phase delivers value on its own and sets up the next one. You start wherever you are.",
     "step": "Step {{number}}",
     "stepOf": "Step {{number}} of {{total}}",
+    "products": {
+      "computeEngine": "Virtual machines on Google Cloud, sized to whatever your operation needs.",
+      "gke": "Runs your systems in containers, scaling up and down on its own as demand changes.",
+      "cloudStorage": "File and backup storage, paid by use and reachable from anywhere.",
+      "bigQuery": "Analyses large volumes of data in seconds, with no server to manage.",
+      "dataflow": "Moves and transforms data between systems, continuously and automatically.",
+      "looker": "Dashboards and reports the whole company reads from a single source.",
+      "vertexAi": "A platform to build, train and run AI models in production.",
+      "gemini": "Google's AI model, applied to your company's content and processes.",
+      "documentAi": "Reads invoices, contracts and forms and turns them into structured data.",
+      "securityCommandCenter": "Brings the risks and gaps across your whole environment into one dashboard.",
+      "cloudIam": "Defines who can access what, giving each person only the permission they need.",
+      "cloudMonitoring": "Tracks performance and availability, warning you before it becomes a problem."
+    },
     "stages": {
       "migrate": {
         "title": "Migrate",
@@ -130,6 +144,27 @@
     "continuous": {
       "title": "Security and managed support",
       "description": "Throughout every stage: hardening, monitoring and a team following your environment day to day."
+    }
+  },
+  "testimonials": {
+    "label": "Client testimonials",
+    "eyebrow": "Companies that made this journey",
+    "items": {
+      "industry": {
+        "quote": "We moved our entire operation to Google Cloud without losing a single day of production.",
+        "company": "Sample Industry",
+        "role": "IT leadership · infrastructure migration"
+      },
+      "retail": {
+        "quote": "For the first time the whole leadership team looks at the same number at the same time.",
+        "company": "Sample Retail",
+        "role": "Data management · warehouse and dashboards"
+      },
+      "services": {
+        "quote": "AI stopped being a meeting topic and became part of the everyday process.",
+        "company": "Sample Services",
+        "role": "Operations leadership · AI applied to support"
+      }
     }
   },
   "contact": {

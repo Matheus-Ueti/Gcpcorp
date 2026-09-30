@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { CLOUD_PRODUCT_NAMES } from '../../data/cloudProducts'
 import type {
   AccentStyleProps,
   ActiveStyleProps,
@@ -34,7 +35,7 @@ export function JourneyShowcase({ stages, activeIndex }: JourneyShowcaseProps) {
           </SlideHead>
           <SlideProducts>
             {products.map((product) => (
-              <li key={product}>{product}</li>
+              <li key={product}>{CLOUD_PRODUCT_NAMES[product]}</li>
             ))}
           </SlideProducts>
         </Slide>

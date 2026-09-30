@@ -89,12 +89,48 @@ export interface SolutionMarkerProps {
  */
 export type JourneyStageKey = 'migrate' | 'organizeData' | 'applyAi' | 'continuous'
 
+/** Produtos do Google Cloud citados na jornada (nomes em `data/cloudProducts`). */
+export type CloudProductKey =
+  | 'computeEngine'
+  | 'gke'
+  | 'cloudStorage'
+  | 'bigQuery'
+  | 'dataflow'
+  | 'looker'
+  | 'vertexAi'
+  | 'gemini'
+  | 'documentAi'
+  | 'securityCommandCenter'
+  | 'cloudIam'
+  | 'cloudMonitoring'
+
 /** Uma etapa da jornada: produtos do Google Cloud usados nela, ícone e cor. */
 export interface JourneyStage {
   key: JourneyStageKey
-  products: string[]
+  products: CloudProductKey[]
   Icon: IconComponent
   accent: BrandAccent
+}
+
+/** Props da fileira de tags de produto de uma etapa. */
+export interface ProductChipsProps {
+  products: CloudProductKey[]
+  /** Cor da etapa a que os produtos pertencem. */
+  accent: BrandAccent
+}
+
+/** Props de uma tag de produto, que abre um balão explicando o que ele é. */
+export interface ProductChipProps {
+  product: CloudProductKey
+  /** Cor da etapa a que o produto pertence: tinge o nome dentro do balão. */
+  accent: BrandAccent
+  isOpen: boolean
+  /** Abre o balão deste produto (hover do mouse, foco pelo teclado). */
+  onOpen: () => void
+  /** Fecha o balão, se for o deste produto que está aberto. */
+  onClose: () => void
+  /** Alterna o balão (toque, onde não existe hover). */
+  onToggle: () => void
 }
 
 /** Uma das três etapas em sequência: além dos dados da etapa, a foto do painel. */
@@ -179,6 +215,32 @@ export interface SocialLinkStyleProps {
 
 export interface SocialFillStyleProps {
   $fill: string
+}
+
+/* ── Depoimentos ─────────────────────────────────────────────────────────── */
+
+export type TestimonialKey = 'industry' | 'retail' | 'services'
+
+/** Um depoimento: chave nas traduções, iniciais do avatar e cor da marca. */
+export interface Testimonial {
+  /** Chave do texto nas traduções (`testimonials.items.<key>`). */
+  key: TestimonialKey
+  /** Iniciais no círculo, já que não há foto de pessoa real. */
+  initials: string
+  accent: BrandAccent
+}
+
+/** Mostra o nome ao lado das iniciais: o ativo, ou o que está sob o mouse. */
+export interface ShowNameProps {
+  $showName: boolean
+}
+
+/** Props de estilo do botão de um depoimento na fileira de baixo. */
+export interface TestimonialButtonProps extends AccentStyleProps, ActiveStyleProps, ShowNameProps {}
+
+/** Props de estilo do bloco de texto que troca ao escolher outro depoimento. */
+export interface FadingTextProps {
+  $isFading: boolean
 }
 
 /* ── Contato ─────────────────────────────────────────────────────────────── */
