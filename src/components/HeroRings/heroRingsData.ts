@@ -1,33 +1,14 @@
 /**
- * Geometria do "Elemento Hero" — arte oficial da marca (viewBox 1080x1080).
- *
- * Os traços do SVG original foram agrupados nos quatro anéis concêntricos que
- * formam o símbolo. Cada anel gira de forma independente, então os pontos de
- * sombra (os tons mais escuros de cada cor) ficam no mesmo grupo do arco a que
- * pertencem — assim o sombreado acompanha o giro em vez de se soltar da arte.
- *
- * Os anéis não se cruzam no eixo radial (verde ~484, amarelo ~344, azul ~261 e
- * vermelho ~126 de raio), por isso podem girar em velocidades e sentidos
- * diferentes sem colidir.
- *
- * Extraído de `ELEMENTO HERO.svg`. Para trocar a arte, gere este arquivo de
- * novo a partir do SVG em vez de editar os traços à mão.
+ * Geometria do "Elemento Hero", extraída de `ELEMENTO HERO.svg`. Para trocar a
+ * arte, gere este arquivo de novo a partir do SVG em vez de editar à mão.
  */
 
 import type { HeroRing } from '../../types'
 
-/** Lado do viewBox quadrado do SVG original. */
 export const HERO_VIEWBOX_SIZE = 1080
 
-/** Centro de rotação dos anéis, em unidades do viewBox. */
 export const HERO_CENTER = HERO_VIEWBOX_SIZE / 2
 
-/**
- * Anéis na ordem de pintura (de fora para dentro).
- *
- * As durações são propositalmente números primos entre si: os anéis nunca
- * reencontram o alinhamento inicial, o que evita a sensação de "loop" curto.
- */
 export const HERO_RINGS: HeroRing[] = [
   {
     id: 'green',

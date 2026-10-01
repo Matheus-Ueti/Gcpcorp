@@ -8,7 +8,6 @@ import { Hero } from '../../components/Hero/Hero'
 import { SolutionsGrid } from '../../components/SolutionsGrid/SolutionsGrid'
 import { TestimonialsSection } from '../../components/TestimonialsSection/TestimonialsSection'
 
-/** Landing page da GCP Corp, na ordem em que as seções aparecem no site. */
 export function Home() {
   return (
     <>
@@ -26,13 +25,9 @@ export function Home() {
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
 /**
- * O anel do hero vaza pela borda direita da página. `clip` (e não `hidden`)
- * corta essa sobra sem transformar o <main> num container de rolagem: não
- * surge barra horizontal e o anel continua livre para vazar para baixo, por
- * cima do card da seção "Sobre".
+ * `clip` (e não `hidden`) corta a sobra do anel sem transformar o <main> num
+ * container de rolagem.
  */
 const Main = styled.main`
   overflow-x: clip;

@@ -8,7 +8,6 @@ import type {
   SocialNetwork,
 } from '../../types'
 
-/** Cores oficiais: o azul do LinkedIn e o degradê do ícone do Instagram. */
 const SOCIAL_NETWORKS: SocialNetwork[] = [
   {
     key: 'linkedin',
@@ -26,11 +25,6 @@ const SOCIAL_NETWORKS: SocialNetwork[] = [
   },
 ]
 
-/**
- * Botões das redes sociais (cabeçalho e rodapé). No hover — ou no foco pelo
- * teclado — a cor da rede sobe de baixo para cima dentro do círculo, o ícone
- * fica branco e um balão com o nome da rede aparece embaixo.
- */
 export function SocialLinks({ size }: SocialLinksProps) {
   const { t } = useTranslation()
 
@@ -48,7 +42,6 @@ export function SocialLinks({ size }: SocialLinksProps) {
             <Fill $fill={fill} />
             <Icon />
           </Link>
-          {/* O nome já está no aria-label do link; o balão é só visual. */}
           <Tooltip $fill={fill} aria-hidden="true">
             {name}
           </Tooltip>
@@ -57,8 +50,6 @@ export function SocialLinks({ size }: SocialLinksProps) {
     </List>
   )
 }
-
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
 
 const EASING = '0.3s ease-in-out'
 
@@ -83,10 +74,6 @@ const Fill = styled.span<SocialFillStyleProps>`
   transition: transform ${EASING};
 `
 
-/*
- * Em repouso, um círculo claro com o ícone escuro; o preenchimento colorido
- * fica embaixo do ícone (que vem depois no HTML e por isso é pintado por cima).
- */
 const Link = styled.a<SocialLinkStyleProps>`
   align-items: center;
   background-color: var(--color-surface-muted);
@@ -134,7 +121,6 @@ const Link = styled.a<SocialLinkStyleProps>`
   }
 `
 
-/** Balão com o nome, na cor da rede; desce um pouco enquanto aparece. */
 const Tooltip = styled.span<SocialFillStyleProps>`
   background: ${({ $fill }) => $fill};
   border-radius: 0.375rem;

@@ -2,12 +2,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { HeroRings } from '../HeroRings/HeroRings'
 import { CtaButton } from '../21stdev/CtaButton/CtaButton'
+import { above, below, DESKTOP, TABLET } from '../../styles/breakpoints'
 
-/**
- * Seção de abertura do site: proposta de valor à esquerda e o "Elemento Hero"
- * animado à direita, grande o bastante para vazar pela borda da página e por
- * cima do card da seção seguinte.
- */
 export function Hero() {
   const { t } = useTranslation()
 
@@ -34,57 +30,31 @@ export function Hero() {
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
-/*
- * Proporções medidas no layout aprovado, todas relativas ao tamanho do anel:
- * - RING_BLEED: quanto do anel passa da borda direita da página.
- * - CARD_LINE: altura (a partir do topo do anel) em que o fio do card
- *   seguinte cruza o anel — o que sobra abaixo disso é a parte que vaza.
- * - TITLE_OFFSET: onde o título começa em relação ao topo do anel.
- * Como tudo deriva de --ring-size, a composição é a mesma em qualquer largura.
- */
+/** Proporções medidas no layout aprovado, relativas a --ring-size. */
 const RING_BLEED = 0.062
 const CARD_LINE = 0.89
 const TITLE_OFFSET = 0.105
 
 /**
- * Onde o anel começa, em fração da largura do container: o texto ocupa o que
- * está à esquerda dessa linha, o anel o que está à direita.
- *
- * É isso que impede o anel de passar por trás do título. Antes o anel crescia
- * com a largura da TELA (61,4vw) enquanto o texto ficava numa coluna
- * centralizada travada em 1200px — então, entre ~980px e ~1700px (a faixa de
- * um notebook), o anel alcançava o texto. A fração foi medida no layout
- * aprovado e agora vale em qualquer largura.
+ * Onde o anel começa, em fração da largura do container. É isso que impede o
+ * anel de alcançar o título entre ~980px e ~1700px, como acontecia quando ele
+ * crescia com a largura da tela (vw).
  */
 const RING_START = 0.6
 
-/** Abaixo desta largura o anel não aparece (mesmo corte do menu do celular). */
-const MOBILE = '(max-width: 639px)'
-
 const Section = styled.section`
-  /* Tablet: o anel entra depois do texto, na largura da tela. */
   --ring-size: min(100vw, 32rem);
   --ring-top: 1rem;
 
   padding-top: 2.5rem;
-  /* Acima da seção seguinte, para o anel vazar por cima do card "Sobre". */
   position: relative;
   z-index: 1;
 
-  /* Sem o anel, o respiro até o card "Sobre" tem que vir daqui. */
-  @media ${MOBILE} {
+  @media ${below(TABLET)} {
     padding-bottom: 3rem;
   }
 
-  @media (min-width: 960px) {
-    /*
-     * O anel preenche o que sobra da tela depois da coluna de texto, mais a
-     * sobra que vaza pela borda direita. Em ordem: borda esquerda do container
-     * (a gutter, mais a metade da folga quando a página passa da largura
-     * máxima), depois a coluna de texto, e o que resta é o anel.
-     */
+  @media ${above(DESKTOP)} {
     --ring-size: min(
       56rem,
       calc(
@@ -109,28 +79,16 @@ const Container = styled.div`
   margin: 0 auto;
   max-width: var(--layout-max-width);
   padding: 0 var(--layout-gutter);
-  /* O texto fica por cima quando algum arco do anel passa por trás dele. */
   position: relative;
   z-index: 1;
 `
 
-/*
- * Tamanhos calibrados medindo o layout aprovado no navegador: a 1280px de
- * largura, título em Qurova 600 a ~45,7px, texto em Poppins a ~25,5px e botão
- * em Qurova 700 a 24px. Os coeficientes em vw reproduzem essas medidas.
- */
 const Title = styled.h1`
   color: var(--color-text);
   font-size: clamp(2rem, 3.57vw, 3.25rem);
   font-weight: 600;
   line-height: 1.23;
   margin: 0 0 clamp(1.25rem, 2.6vw, 2.25rem);
-  /*
-   * Largura em em, para acompanhar a fonte: cabe "vantagem para o seu negócio"
-   * mas não "Transforme tecnologia em vantagem", então o título quebra em duas
-   * linhas logo depois de "em", como no layout — tanto na Qurova quanto na
-   * Quicksand substituta (medido nas duas).
-   */
   max-width: 15.5em;
   text-wrap: balance;
 `
@@ -143,7 +101,6 @@ const Description = styled.p`
   font-size: clamp(1.0625rem, 1.99vw, 1.625rem);
   line-height: 1.4;
   margin: 0 0 clamp(1.25rem, 2.5vw, 2rem);
-  /* Quebra nas mesmas quatro linhas do layout ("dados," / "para" / "mais"). */
   max-width: 21.5em;
 
   strong {
@@ -158,28 +115,17 @@ const Lead = styled.p`
   margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
 `
 
-/**
- * No celular o anel não aparece: ocupava quase uma tela inteira só de
- * decoração, empurrando o conteúdo para baixo.
- *
- * Tablet: entra depois do texto, encostado à direita, sangrando pela borda da
- * tela e por cima do card seguinte (margem inferior negativa).
- *
- * Desktop: sai do fluxo e fica ancorado à borda direita da página — é isso que
- * o faz vazar para fora em qualquer largura, como no layout. A sobra lateral é
- * cortada pelo overflow-x do <main>.
- */
 const Artwork = styled.div`
   margin: 2.5rem calc(var(--ring-size) * -${RING_BLEED}) calc(var(--ring-size) * (${CARD_LINE} - 1))
     auto;
   pointer-events: none;
   width: var(--ring-size);
 
-  @media ${MOBILE} {
+  @media ${below(TABLET)} {
     display: none;
   }
 
-  @media (min-width: 960px) {
+  @media ${above(DESKTOP)} {
     margin: 0;
     position: absolute;
     right: calc(var(--ring-size) * -${RING_BLEED});

@@ -9,27 +9,16 @@ import {
 import { useTranslation } from 'react-i18next'
 import styled, { keyframes } from 'styled-components'
 import { CLOUD_PRODUCT_NAMES } from '../../../data/cloudProducts'
+import { accentColor } from '../../../utils/style'
 import type {
   AccentStyleProps,
-  BrandAccent,
   CloudProductKey,
   ProductChipProps,
   ProductChipsProps,
 } from '../../../types'
 
-/** Distância mínima (px) entre o balão e a borda da tela. */
 const VIEWPORT_MARGIN = 12
 
-/**
- * Tags dos produtos do Google Cloud de uma etapa da jornada.
- *
- * Os nomes são prova técnica para quem conhece a plataforma, mas "Dataflow" ou
- * "Cloud IAM" não dizem nada para quem decide a compra. Passar o mouse (ou
- * focar pelo teclado) abre um balão com uma frase explicando o produto, sem
- * tirar ninguém da página. No toque, onde não há hover, o clique abre e fecha.
- *
- * Um balão aberto por vez; também fecha ao tocar fora ou apertar Esc.
- */
 export function ProductChips({ products, accent }: ProductChipsProps) {
   const listRef = useRef<HTMLUListElement>(null)
   const [openKey, setOpenKey] = useState<CloudProductKey | null>(null)
@@ -75,12 +64,10 @@ export function ProductChips({ products, accent }: ProductChipsProps) {
   )
 }
 
-/** Uma tag: o nome do produto e, quando aberto, o balão com a explicação. */
 function ProductChip({ product, accent, isOpen, onOpen, onClose, onToggle }: ProductChipProps) {
   const { t } = useTranslation()
   const chipRef = useRef<HTMLButtonElement>(null)
   const bubbleRef = useRef<HTMLSpanElement>(null)
-  /** Tipo do último ponteiro que apertou a tag: define o que o clique faz. */
   const lastPointerType = useRef<string>('')
 
   const name = CLOUD_PRODUCT_NAMES[product]
@@ -99,10 +86,6 @@ function ProductChip({ product, accent, isOpen, onOpen, onClose, onToggle }: Pro
     }
   }
 
-  /*
-   * No mouse, o hover já abriu o balão: o clique só o mantém aberto (alternar
-   * aqui fecharia o balão que a pessoa acabou de ver). No toque, alterna.
-   */
   const handleClick = () => {
     if (lastPointerType.current === 'mouse') {
       onOpen()
@@ -111,18 +94,12 @@ function ProductChip({ product, accent, isOpen, onOpen, onClose, onToggle }: Pro
     }
   }
 
-  /* Foco pelo teclado (Tab) abre; o foco que vem de um clique não conta. */
   const handleFocus = (event: FocusEvent<HTMLButtonElement>) => {
     if (event.currentTarget.matches(':focus-visible')) {
       onOpen()
     }
   }
 
-  /*
-   * O balão fica centrado sob a tag, mas nas tags das pontas ele sairia da
-   * tela. Antes da pintura, mede e empurra o balão para dentro; a seta
-   * compensa o deslocamento e continua apontando para a tag.
-   */
   useLayoutEffect(() => {
     const chip = chipRef.current
     const bubble = bubbleRef.current
@@ -168,10 +145,6 @@ function ProductChip({ product, accent, isOpen, onOpen, onClose, onToggle }: Pro
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
-const accentColor = (accent: BrandAccent) => `var(--color-${accent})`
-
 const bubbleIn = keyframes`
   from {
     opacity: 0;
@@ -197,13 +170,7 @@ const Item = styled.li`
   position: relative;
 `
 
-/**
- * Mesma pílula de antes; agora é um botão, porque revela informação. O
- * tracejado embaixo é a dica visual de que há algo a ver ali — a mesma
- * convenção de um termo com definição.
- */
 const Chip = styled.button`
-  /* Quem usa as tags sobre fundo branco troca o fundo delas por --chip-background. */
   background-color: var(--chip-background, var(--color-surface));
   border: 1px solid var(--color-border);
   border-radius: 999px;
@@ -238,9 +205,8 @@ const Chip = styled.button`
 `
 
 /*
- * Centralizado sob a tag via "translate" (propriedade própria, separada de
- * "transform"), para a animação de entrada poder usar o transform sem desfazer
- * a centralização nem o ajuste de borda (--edge-shift).
+ * Centralizado via "translate" (separado de "transform") para a animação de
+ * entrada usar o transform sem desfazer a centralização.
  */
 const Bubble = styled.span`
   animation: ${bubbleIn} 0.22s ease-out;
@@ -261,7 +227,6 @@ const Bubble = styled.span`
   max-width: min(18rem, calc(100vw - 2rem));
   z-index: 5;
 
-  /* Seta apontando para a tag, compensando o ajuste de borda. */
   &::before {
     background-color: inherit;
     border-radius: 2px;
@@ -279,7 +244,6 @@ const Bubble = styled.span`
   }
 `
 
-/** O nome repetido dentro do balão, na cor da etapa: liga a explicação à tag. */
 const BubbleName = styled.strong<AccentStyleProps>`
   color: ${({ $accent }) => accentColor($accent)};
   display: block;

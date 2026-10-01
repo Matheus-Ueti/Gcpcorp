@@ -1,10 +1,6 @@
 import type { ContactLink } from '../types'
 
-/**
- * Dados de contato provisórios — substituir pelos oficiais da GCP Corp.
- * Ficam num lugar só porque aparecem no rodapé e na chamada final: ao trocar
- * aqui, o texto e o link (`href`) mudam nos dois.
- */
+/** Dados de contato provisórios — substituir pelos oficiais da GCP Corp. */
 export const CONTACT_EMAIL: ContactLink = {
   text: 'contato@gcpcorp.com.br',
   href: 'mailto:contato@gcpcorp.com.br',

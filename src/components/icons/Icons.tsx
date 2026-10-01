@@ -1,17 +1,5 @@
 import type { IconProps } from '../../types'
 
-/**
- * Conjunto de ícones do site.
- *
- * São SVGs inline (e não arquivos em `assets/`) por dois motivos: herdam a cor
- * do texto via `currentColor` — então o mesmo ícone serve em cima do amarelo do
- * menu e do azul dos botões sociais — e não custam uma requisição cada.
- *
- * Os ícones de navegação são de traço; os de redes sociais são os glifos
- * oficiais das marcas, que só existem em versão preenchida.
- */
-
-/** Base dos ícones de traço: grade 24x24, contorno na cor do texto. */
 function OutlineIcon({ children, ...props }: IconProps) {
   return (
     <svg
@@ -32,7 +20,6 @@ function OutlineIcon({ children, ...props }: IconProps) {
   )
 }
 
-/** Base dos glifos de marca: grade 24x24, preenchidos na cor do texto. */
 function BrandIcon({ children, ...props }: IconProps) {
   return (
     <svg
@@ -48,8 +35,6 @@ function BrandIcon({ children, ...props }: IconProps) {
     </svg>
   )
 }
-
-/* ── Navegação ───────────────────────────────────────────────────────────── */
 
 export function HomeIcon(props: IconProps) {
   return (
@@ -90,9 +75,6 @@ export function MailIcon(props: IconProps) {
   )
 }
 
-/* ── Jornada "Da migração à IA" ──────────────────────────────────────────── */
-
-/** Servidor com uma seta subindo para a nuvem; a base da nuvem abre para a seta entrar. */
 export function ServerCloudIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
@@ -106,7 +88,6 @@ export function ServerCloudIcon(props: IconProps) {
   )
 }
 
-/** Banco de dados: o dado consolidado num só lugar (data warehouse). */
 export function DatabaseIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
@@ -117,7 +98,6 @@ export function DatabaseIcon(props: IconProps) {
   )
 }
 
-/** Chip com a estrela de quatro pontas no centro: IA rodando em produção. */
 export function AiChipIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
@@ -137,12 +117,6 @@ export function ShieldIcon(props: IconProps) {
   )
 }
 
-/* ── Sobre nós ───────────────────────────────────────────────────────────── */
-
-/**
- * Janela com lupa. As bordas da janela param antes da lupa em vez de passar
- * por baixo dela, para os dois traços não se cruzarem.
- */
 export function AnalysisIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
@@ -166,9 +140,6 @@ export function TechnologyIcon(props: IconProps) {
   )
 }
 
-/* ── Órbita de soluções ──────────────────────────────────────────────────── */
-
-/** Banco de dados com uma seta saindo: dados indo para outro lugar. */
 export function MigrationIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
@@ -189,7 +160,6 @@ export function CheckIcon(props: IconProps) {
   )
 }
 
-/** Estrela de quatro pontas preenchida, o símbolo usual de IA. */
 export function SparkleIcon(props: IconProps) {
   return (
     <OutlineIcon {...props} fill="currentColor" stroke="none">
@@ -198,7 +168,6 @@ export function SparkleIcon(props: IconProps) {
   )
 }
 
-/** Nuvem simples, sem seta: a nuvem como produto, não como migração. */
 export function CloudOutlineIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
@@ -207,7 +176,6 @@ export function CloudOutlineIcon(props: IconProps) {
   )
 }
 
-/** Três nós interligados: estrutura, políticas, controle. */
 export function NetworkIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
@@ -230,8 +198,6 @@ export function CloseIcon(props: IconProps) {
   )
 }
 
-/* ── Contato ─────────────────────────────────────────────────────────────── */
-
 export function PhoneIcon(props: IconProps) {
   return (
     <OutlineIcon {...props}>
@@ -248,8 +214,6 @@ export function MapPinIcon(props: IconProps) {
     </OutlineIcon>
   )
 }
-
-/* ── Redes sociais ───────────────────────────────────────────────────────── */
 
 export function LinkedInIcon(props: IconProps) {
   return (

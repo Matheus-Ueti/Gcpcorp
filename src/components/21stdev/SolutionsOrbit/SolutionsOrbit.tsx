@@ -16,6 +16,7 @@ import {
   ShieldIcon,
   SparkleIcon,
 } from '../../icons/Icons'
+import { accentColor } from '../../../utils/style'
 import type {
   AccentStyleProps,
   BrandAccent,
@@ -25,14 +26,8 @@ import type {
   SolutionKey,
 } from '../../../types'
 
-/** Símbolo "g" da marca: o mesmo arquivo do favicon, já recortado só no símbolo. */
 const SYMBOL_SRC = '/favicon.svg'
 
-/**
- * Soluções na ordem em que aparecem no anel, no sentido horário a partir do
- * topo, como no layout. Cada uma tem a cor do seu anel e as soluções com que
- * se conecta — elas pulsam quando esta é aberta.
- */
 const SOLUTIONS: OrbitSolution[] = [
   { key: 'migration', Icon: MigrationIcon, accent: 'blue', related: ['cloud', 'governance'] },
   { key: 'licensing', Icon: CheckIcon, accent: 'yellow', related: ['governance', 'cloud'] },
@@ -47,34 +42,22 @@ const SOLUTIONS: OrbitSolution[] = [
   { key: 'security', Icon: ShieldIcon, accent: 'green', related: ['governance', 'cloud'] },
 ]
 
-/** Ângulo entre dois nós vizinhos. */
 const STEP = 360 / SOLUTIONS.length
-/** Giro automático: uma volta a cada 60s, a mesma velocidade do componente original. */
+/** Uma volta a cada 60s, como no componente original. */
 const DEGREES_PER_SECOND = 6
-/** Duração do giro que leva a solução escolhida até o topo. */
 const FOCUS_DURATION_MS = 700
 const DETAIL_ID = 'orbita-detalhe'
 
-/** Ângulo base de cada nó: o primeiro no topo (-90°), os demais no sentido horário. */
 const baseAngle = (index: number) => index * STEP - 90
 
 const easeOutCubic = (progress: number) => 1 - (1 - progress) ** 3
 
+/** Menor caminho angular (-180° a 180°) entre dois ângulos. */
+const shortestTurn = (from: number, to: number) => ((((to - from) % 360) + 540) % 360) - 180
+
 const accentOf = (key: SolutionKey): BrandAccent =>
   SOLUTIONS.find((solution) => solution.key === key)?.accent ?? 'blue'
 
-/**
- * Órbita de soluções: o símbolo da marca no centro e as soluções girando ao
- * redor. Ao clicar numa solução, ela gira até o topo, o detalhe aparece e as
- * soluções relacionadas pulsam. Fecha clicando fora, no fundo da órbita ou
- * apertando Esc. O detalhe fica no miolo do anel quando há espaço e desce para
- * baixo da órbita no celular.
- *
- * O giro não passa pelo React: um requestAnimationFrame escreve só a variável
- * CSS --orbit-angle, e cada nó se posiciona por transform. Ele pausa com o
- * mouse em cima (para dar para clicar num alvo parado), com foco de teclado
- * dentro, com a seção fora da tela e para quem pediu movimento reduzido.
- */
 export function SolutionsOrbit() {
   const { t } = useTranslation()
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -103,7 +86,6 @@ export function SolutionsOrbit() {
     return () => observer.disconnect()
   }, [])
 
-  /* Giro automático, retomando do ângulo em que parou. */
   useEffect(() => {
     const orbit = orbitRef.current
     if (!orbit || !isRotating) {
@@ -123,10 +105,6 @@ export function SolutionsOrbit() {
     return () => cancelAnimationFrame(frame)
   }, [isRotating])
 
-  /*
-   * Leva a solução escolhida até o topo pelo caminho mais curto. O nó fica no
-   * topo quando o ângulo da órbita é -índice·STEP (o base dele é índice·STEP-90).
-   */
   useEffect(() => {
     const orbit = orbitRef.current
     const index = SOLUTIONS.findIndex((solution) => solution.key === selectedKey)
@@ -135,7 +113,7 @@ export function SolutionsOrbit() {
     }
 
     const from = angleRef.current
-    const delta = ((((-index * STEP - from) % 360) + 540) % 360) - 180
+    const delta = shortestTurn(from, -index * STEP)
     const apply = (angle: number) => {
       angleRef.current = angle
       orbit.style.setProperty('--orbit-angle', `${angle}deg`)
@@ -160,11 +138,6 @@ export function SolutionsOrbit() {
     return () => cancelAnimationFrame(frame)
   }, [selectedKey, prefersReducedMotion])
 
-  /*
-   * Com uma solução aberta: clicar fora (da órbita e do detalhe) ou apertar Esc
-   * fecha. Usa o wrapper, que contém os dois — no celular o detalhe fica fora
-   * da órbita, e clicar nele não pode fechá-lo.
-   */
   useEffect(() => {
     if (!selectedKey) {
       return
@@ -226,7 +199,6 @@ export function SolutionsOrbit() {
         role="group"
         aria-label={t('ecosystem.orbit.label')}
         onClick={(event) => {
-          // Clique no fundo da órbita (fora dos nós) fecha, como no original.
           if (event.target === event.currentTarget) {
             setSelectedKey(null)
           }
@@ -302,11 +274,6 @@ export function SolutionsOrbit() {
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
-const accentColor = (accent: BrandAccent) => `var(--color-${accent})`
-
-/** Onda que sai do anel das soluções relacionadas à que está aberta. */
 const relatedPulse = keyframes`
   from {
     box-shadow: 0 0 0 0 color-mix(in srgb, var(--pulse-color) 55%, transparent);
@@ -329,22 +296,12 @@ const detailIn = keyframes`
   }
 `
 
-/*
- * Container de consulta do detalhe: é a largura disponível para a órbita que
- * decide se o detalhe cabe no miolo do anel ou desce para baixo dela.
- */
 const Wrapper = styled.div`
   container-type: inline-size;
   position: relative;
   width: 100%;
 `
 
-/*
- * A órbita é um container de consulta: raio, tamanho dos nós e das fontes são
- * medidos em cqi (% da largura dela), então a composição do layout se mantém
- * igual do celular ao desktop. Proporções medidas no mock: anel de 78% da
- * largura, nós de 11%, símbolo central de 22% de altura.
- */
 const Orbit = styled.div`
   --orbit-angle: 0deg;
   --radius: 39cqi;
@@ -392,10 +349,6 @@ const BrandSymbol = styled.img`
   }
 `
 
-/*
- * Posiciona o nó no anel e o "desgira" em seguida: gira até o ângulo, anda o
- * raio e desfaz o giro — o nó vai para o lugar, mas o rótulo continua de pé.
- */
 const Node = styled.div<OrbitNodeStyleProps>`
   --node-turn: calc(${({ $angle }) => $angle}deg + var(--orbit-angle));
 
@@ -497,13 +450,6 @@ const Label = styled.span`
   white-space: nowrap;
 `
 
-/*
- * Estreito (celular): o detalhe entra abaixo da órbita, no fluxo da página, e
- * fechado não ocupa espaço. Com espaço: fica no miolo do anel, um pouco abaixo
- * do centro — a solução aberta vai para o topo, e o rótulo dela fica logo
- * acima deste cartão. A largura (42% da órbita) foi escolhida para o cartão
- * não encostar nos rótulos dos nós laterais.
- */
 const Detail = styled.div`
   background-color: var(--color-surface);
   border: 1.5px solid var(--color-border-warm);

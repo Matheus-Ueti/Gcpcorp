@@ -1,21 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CLOUD_PRODUCT_NAMES } from '../../data/cloudProducts'
-import type {
-  AccentStyleProps,
-  ActiveStyleProps,
-  BrandAccent,
-  JourneyShowcaseProps,
-} from '../../types'
+import { accentColor } from '../../utils/style'
+import type { AccentStyleProps, ActiveStyleProps, JourneyShowcaseProps } from '../../types'
 
-/**
- * Painel da jornada "Da migração à IA": um card por etapa, com a foto da
- * etapa ao fundo, empilhados — só o da etapa em foco aparece.
- *
- * Quem decide a etapa em foco (e onde o painel fica fixo) é `SolutionsGrid`;
- * aqui fica só a aparência. O painel repete o conteúdo das etapas de forma
- * visual, por isso quem o usa deve escondê-lo dos leitores de tela.
- */
 export function JourneyShowcase({ stages, activeIndex }: JourneyShowcaseProps) {
   const { t } = useTranslation()
 
@@ -55,15 +43,6 @@ export function JourneyShowcase({ stages, activeIndex }: JourneyShowcaseProps) {
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
-const accentColor = (accent: BrandAccent) => `var(--color-${accent})`
-
-/*
- * Centralizado na tela, onde fica a linha de leitura de `SolutionsGrid`. O
- * mínimo de 9rem mantém o painel abaixo do cabeçalho fixo, que quebra em duas
- * linhas abaixo de ~1200px.
- */
 const Showcase = styled.div`
   --showcase-height: clamp(24rem, 62vh, 31rem);
   background-color: var(--color-navy);
@@ -76,11 +55,6 @@ const Showcase = styled.div`
   top: max(9rem, calc(50vh - var(--showcase-height) / 2));
 `
 
-/*
- * Os cards ficam na mesma célula do grid (o painel fica com a altura do maior)
- * e trocam com crossfade. A foto fica ao fundo, e um degradê azul-marinho
- * (a cor do logo) sobe da base para o texto ficar legível sobre qualquer foto.
- */
 const Slide = styled.div<ActiveStyleProps>`
   display: flex;
   flex-direction: column;
@@ -187,7 +161,6 @@ const SlideProducts = styled.ul`
   }
 `
 
-/** Pontos de progresso: etapas já percorridas acesas, a atual maior e na cor dela. */
 const Progress = styled.div`
   align-items: center;
   bottom: 1.75rem;

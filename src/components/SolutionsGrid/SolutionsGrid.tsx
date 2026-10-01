@@ -7,25 +7,18 @@ import organizeDataImage from '../../assets/journey/organizeData.webp'
 import { AiChipIcon, DatabaseIcon, ServerCloudIcon, ShieldIcon } from '../icons/Icons'
 import { JourneyShowcase } from '../JourneyShowcase/JourneyShowcase'
 import { ProductChips } from '../21stdev/ProductChips/ProductChips'
+import { above, below, DESKTOP, TABLET } from '../../styles/breakpoints'
+import { accentColor } from '../../utils/style'
 import type {
+  AccentStyleProps,
   ActiveStyleProps,
-  BrandAccent,
   IllustratedJourneyStage,
   JourneyStage,
-  SolutionMarkerProps,
 } from '../../types'
 
 /**
- * As três etapas são uma sequência real: só há dado confiável depois que a
- * infraestrutura migra, e só há IA útil depois que o dado está organizado. Por
- * isso a seção é lida como percurso, e não como quatro serviços equivalentes.
- *
- * Segurança e suporte ficam fora da sequência de propósito: acontecem durante
- * todas as etapas, e a seção mostra isso como faixa contínua abaixo delas.
- *
- * Fotos do Unsplash (licença Unsplash: uso comercial livre, sem atribuição
- * obrigatória): Homa Appliances (aG7obD4_EVI), Luke Chesser (JKUTrJ4vK00) e
- * Growtika (nGoCBxiaRO0).
+ * Fotos do Unsplash (uso comercial livre, sem atribuição obrigatória): Homa
+ * Appliances (aG7obD4_EVI), Luke Chesser (JKUTrJ4vK00), Growtika (nGoCBxiaRO0).
  */
 const JOURNEY_STAGES: IllustratedJourneyStage[] = [
   {
@@ -58,21 +51,9 @@ const CONTINUOUS_STAGE: JourneyStage = {
   accent: 'red',
 }
 
-/**
- * Linha de leitura: a etapa que cruza o meio da tela vira a ativa. O painel
- * fixo fica centralizado na tela, então o texto em foco fica ao lado dele.
- */
+/** rootMargin que reduz o viewport a uma linha no meio da tela. */
 const READING_LINE = '-50% 0px -50% 0px'
 
-/**
- * Jornada "Da migração à IA" com rolagem guiada: no desktop, as etapas passam
- * pela esquerda enquanto um painel fixo à direita mostra a etapa em foco.
- *
- * Usa a rolagem da própria página (painel em position: sticky) em vez de uma
- * caixa com rolagem interna: numa landing page, uma rolagem dentro da outra
- * prende a roda do mouse e atrapalha no celular. No celular, o painel some e
- * as etapas ficam empilhadas, todas legíveis.
- */
 export function SolutionsGrid() {
   const { t } = useTranslation()
   const stageRefs = useRef<Array<HTMLLIElement | null>>([])
@@ -133,7 +114,6 @@ export function SolutionsGrid() {
             ))}
           </Stages>
 
-          {/* Repete a etapa em foco de forma visual: é decorativo para leitores de tela. */}
           <ShowcaseColumn aria-hidden="true">
             <JourneyShowcase stages={JOURNEY_STAGES} activeIndex={activeIndex} />
           </ShowcaseColumn>
@@ -156,13 +136,6 @@ export function SolutionsGrid() {
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
-const accentColor = (accent: BrandAccent) => `var(--color-${accent})`
-
-/** A partir desta largura, o painel fixo aparece e o efeito de rolagem liga. */
-const DESKTOP = '(min-width: 960px)'
-
 const Section = styled.section`
   background-color: var(--color-surface-muted);
   padding: 6rem 0;
@@ -179,7 +152,6 @@ const Intro = styled.div`
   max-width: 36rem;
 `
 
-/* Qurova 600, o peso dos títulos no layout aprovado (a 700 ela fica pesada demais). */
 const Title = styled.h2`
   color: var(--color-text-strong);
   font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem);
@@ -204,7 +176,7 @@ const Journey = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 1fr);
 
-  @media ${DESKTOP} {
+  @media ${above(DESKTOP)} {
     gap: 4rem;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
@@ -218,18 +190,13 @@ const Stages = styled.ol`
   margin: 0;
   padding: 0;
 
-  @media ${DESKTOP} {
+  @media ${above(DESKTOP)} {
     gap: 0;
   }
 `
 
-/*
- * No desktop, cada etapa ocupa boa parte da tela para haver rolagem enquanto o
- * painel fica parado; a última não precisa (senão sobra um vão vazio no fim).
- * Fora de foco, a etapa esmaece — como no componente original.
- */
 const Stage = styled.li<ActiveStyleProps>`
-  @media ${DESKTOP} {
+  @media ${above(DESKTOP)} {
     min-height: 55vh;
     opacity: ${({ $isActive }) => ($isActive ? 1 : 0.35)};
     padding-bottom: 2rem;
@@ -245,7 +212,6 @@ const Stage = styled.li<ActiveStyleProps>`
   }
 `
 
-/** No celular não há painel: a foto da etapa vem no topo dela. */
 const StageImage = styled.img`
   aspect-ratio: 16 / 9;
   border-radius: 1rem;
@@ -254,7 +220,7 @@ const StageImage = styled.img`
   object-fit: cover;
   width: 100%;
 
-  @media ${DESKTOP} {
+  @media ${above(DESKTOP)} {
     display: none;
   }
 `
@@ -266,7 +232,7 @@ const StageHead = styled.div`
   margin-bottom: 1.25rem;
 `
 
-const Marker = styled.span<SolutionMarkerProps>`
+const Marker = styled.span<AccentStyleProps>`
   align-items: center;
   background-color: var(--color-surface);
   border: 2px solid ${({ $accent }) => accentColor($accent)};
@@ -301,23 +267,14 @@ const StageText = styled.p`
   max-width: 32rem;
 `
 
-/*
- * A coluna estica até a altura da lista de etapas; o painel dentro dela é que
- * fica fixo (sticky). Se o próprio painel esticasse, não haveria espaço para
- * ele "grudar" enquanto a lista rola.
- */
 const ShowcaseColumn = styled.div`
   display: none;
 
-  @media ${DESKTOP} {
+  @media ${above(DESKTOP)} {
     display: block;
   }
 `
 
-/**
- * Faixa contínua: atravessa a largura toda para dizer, pela forma, que
- * segurança e suporte não são uma quarta etapa — acontecem durante as três.
- */
 const Continuous = styled.div`
   align-items: center;
   background-color: var(--color-surface);
@@ -330,7 +287,7 @@ const Continuous = styled.div`
   margin-top: 3rem;
   padding: 1.75rem;
 
-  @media (max-width: 639px) {
+  @media ${below(TABLET)} {
     gap: 1.25rem;
     padding: 1.5rem;
   }
@@ -343,17 +300,15 @@ const Continuous = styled.div`
     margin-bottom: 0;
   }
 
-  /* A faixa já é branca: as tags precisam de um fundo mais fundo para separar. */
   --chip-background: var(--color-surface-muted);
 `
 
-/* No celular o ícone vai para cima do título, para o texto usar a largura toda. */
 const ContinuousMain = styled.div`
   align-items: flex-start;
   display: flex;
   gap: 1.25rem;
 
-  @media (max-width: 639px) {
+  @media ${below(TABLET)} {
     flex-direction: column;
     gap: 1rem;
   }

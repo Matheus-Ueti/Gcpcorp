@@ -24,9 +24,8 @@ import slidesIcon from '../../assets/workspace/slides.svg'
 import type { WorkspaceAppProps, WorkspaceProduct, WorkspaceProductKey } from '../../types'
 
 /**
- * Produtos do Google Workspace, na ordem do layout. Os ícones são os oficiais
- * atuais, baixados do CDN do próprio Google (os mesmos de workspace.google.com).
- * O do Gemini é um PNG porque o SVG oficial embute uma imagem de 250 KB.
+ * Ícones oficiais do CDN do Google. O do Gemini é PNG porque o SVG oficial
+ * embute uma imagem de 250 KB.
  */
 const WORKSPACE_PRODUCTS: WorkspaceProduct[] = [
   { key: 'gmail', icon: gmailIcon },
@@ -44,15 +43,8 @@ const WORKSPACE_PRODUCTS: WorkspaceProduct[] = [
   { key: 'chat', icon: chatIcon },
 ]
 
-/** Distância mínima (px) entre o balão e a borda da tela. */
 const VIEWPORT_MARGIN = 8
 
-/**
- * Fileira de aplicativos do Google Workspace. Ao passar o mouse (ou focar pelo
- * teclado) num ícone, ele dá um pequeno pulo e o nome do aplicativo aparece num
- * balão logo abaixo. No toque, onde não há hover, o clique abre e fecha.
- * Um balão aberto por vez; também fecha ao tocar fora ou apertar Esc.
- */
 export function WorkspaceApps() {
   const { t } = useTranslation()
   const listRef = useRef<HTMLUListElement>(null)
@@ -99,16 +91,9 @@ export function WorkspaceApps() {
   )
 }
 
-/**
- * Um aplicativo: botão com o ícone e, quando aberto, o balão com o nome.
- *
- * O nome já é o texto alternativo do ícone (e, portanto, o nome acessível do
- * botão), então o balão é só visual e fica fora da árvore de acessibilidade.
- */
 function WorkspaceApp({ product, name, isOpen, onOpen, onClose, onToggle }: WorkspaceAppProps) {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const bubbleRef = useRef<HTMLSpanElement>(null)
-  /** Tipo do último ponteiro que apertou o botão: define o que o clique faz. */
   const lastPointerType = useRef<string>('')
 
   const handlePointerEnter = (event: ReactPointerEvent<HTMLButtonElement>) => {
@@ -123,10 +108,6 @@ function WorkspaceApp({ product, name, isOpen, onOpen, onClose, onToggle }: Work
     }
   }
 
-  /*
-   * No mouse, o hover já abriu o balão: o clique só o mantém aberto (alternar
-   * aqui fecharia o balão que a pessoa acabou de ver). No toque, alterna.
-   */
   const handleClick = () => {
     if (lastPointerType.current === 'mouse') {
       onOpen()
@@ -135,19 +116,12 @@ function WorkspaceApp({ product, name, isOpen, onOpen, onClose, onToggle }: Work
     }
   }
 
-  /* Foco pelo teclado (Tab) abre; o foco que vem de um clique não conta. */
   const handleFocus = (event: FocusEvent<HTMLButtonElement>) => {
     if (event.currentTarget.matches(':focus-visible')) {
       onOpen()
     }
   }
 
-  /*
-   * O balão fica centrado sob o ícone, mas nos ícones das pontas (no celular)
-   * um nome longo como "Hojas de cálculo de Google" sairia da tela. Antes da
-   * pintura, mede e empurra o balão para dentro; a seta compensa o
-   * deslocamento e continua apontando para o ícone.
-   */
   useLayoutEffect(() => {
     const button = buttonRef.current
     const bubble = bubbleRef.current
@@ -191,9 +165,6 @@ function WorkspaceApp({ product, name, isOpen, onOpen, onClose, onToggle }: Work
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
-/** O "pulo" do ícone ao ser clicado: sobe, passa um pouco do ponto e assenta. */
 const pop = keyframes`
   0% {
     transform: translateY(0) scale(1);
@@ -224,11 +195,6 @@ const bubbleIn = keyframes`
   }
 `
 
-/**
- * Fileira centralizada. No celular ela quebra em duas linhas; os mínimos de
- * tamanho e espaço foram escolhidos para caberem 7 ícones por linha a partir de
- * 360px (7 + 6), sem deixar um ícone órfão numa terceira linha.
- */
 const List = styled.ul`
   display: flex;
   flex-wrap: wrap;
@@ -284,9 +250,8 @@ const AppIcon = styled.img`
 `
 
 /*
- * Centralizado sob o ícone via "translate" (propriedade própria, separada de
- * "transform"), para a animação de entrada poder usar o transform sem desfazer
- * a centralização nem o ajuste de borda (--edge-shift).
+ * Centralizado via "translate" (separado de "transform") para a animação de
+ * entrada usar o transform sem desfazer a centralização.
  */
 const Bubble = styled.span`
   animation: ${bubbleIn} 0.22s ease-out;
@@ -306,7 +271,6 @@ const Bubble = styled.span`
   white-space: nowrap;
   z-index: 5;
 
-  /* Seta apontando para o ícone, compensando o ajuste de borda. */
   &::before {
     background-color: inherit;
     border-radius: 2px;

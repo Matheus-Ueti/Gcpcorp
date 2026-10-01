@@ -2,33 +2,15 @@ import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import type { SparkParticle } from '../../../types'
 
-/**
- * Distância (px) que o mouse precisa percorrer para soltar uma nova faísca. O
- * evento de movimento dispara a cada quadro; sem esse intervalo o rastro vira
- * uma nuvem. Quanto maior, mais espaçado o rastro.
- */
 const SPAWN_DISTANCE = 18
-/** Faíscas soltas a cada intervalo percorrido. */
 const SPARKS_PER_SPAWN = 1
-/** Teto de faíscas na tela ao mesmo tempo. */
 const MAX_SPARKS = 40
-/** Quanto da velocidade cada faísca mantém por quadro (atrito): menor = some antes. */
 const FRICTION = 0.88
-/** Abaixo desta velocidade a faísca "parou" e sai da tela. */
 const MIN_SPEED = 0.05
 const SPARK_RADIUS = 2.5
 
-/** Cores da marca, lidas dos tokens do GlobalStyle (o canvas não entende var()). */
 const BRAND_COLOR_TOKENS = ['--color-blue', '--color-red', '--color-yellow', '--color-green']
 
-/**
- * Rastro de faíscas nas cores da marca que segue o cursor pelo site inteiro.
- *
- * É uma camada fixa e transparente por cima da página, sem capturar cliques
- * (pointer-events: none). O loop de animação só roda enquanto há faíscas na
- * tela: com o mouse parado, não gasta nada. Fica desligado em telas de toque
- * (não há cursor) e para quem pediu movimento reduzido no sistema.
- */
 export function MouseSpark() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -47,10 +29,8 @@ export function MouseSpark() {
 
     let particles: SparkParticle[] = []
     let frameId = 0
-    /** Onde a última faísca nasceu — para medir a distância até a próxima. */
     let lastSpawn: { x: number; y: number } | null = null
 
-    /* Canvas na resolução real da tela, para as faíscas não ficarem borradas. */
     const resize = () => {
       const ratio = window.devicePixelRatio || 1
       canvas.width = window.innerWidth * ratio
@@ -127,9 +107,6 @@ export function MouseSpark() {
   return <Canvas ref={canvasRef} aria-hidden="true" />
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
-/* Acima de tudo (inclusive do header fixo), mas transparente aos cliques. */
 const Canvas = styled.canvas`
   height: 100vh;
   inset: 0;

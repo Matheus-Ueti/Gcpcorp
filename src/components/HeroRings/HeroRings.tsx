@@ -2,13 +2,6 @@ import styled, { keyframes } from 'styled-components'
 import { HERO_CENTER, HERO_RINGS, HERO_VIEWBOX_SIZE } from './heroRingsData'
 import type { HeroRingStyleProps, HeroShape } from '../../types'
 
-/**
- * "Elemento Hero" da marca, com cada anel concêntrico girando de forma
- * independente.
- *
- * A arte é decorativa: quem carrega o significado da seção é o título do hero,
- * por isso o SVG fica fora da árvore de acessibilidade (`aria-hidden`).
- */
 export function HeroRings() {
   return (
     <Svg
@@ -26,10 +19,6 @@ export function HeroRings() {
   )
 }
 
-/**
- * Os traços são estáticos e nunca reordenados, então o índice é uma `key`
- * estável.
- */
 function renderShape(shape: HeroShape, index: number) {
   if (shape.kind === 'circle') {
     return <circle key={index} cx={shape.cx} cy={shape.cy} r={shape.r} fill={shape.fill} />
@@ -37,8 +26,6 @@ function renderShape(shape: HeroShape, index: number) {
 
   return <path key={index} d={shape.d} fill={shape.fill} />
 }
-
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
 
 const spin = keyframes`
   from {
@@ -57,10 +44,9 @@ const Svg = styled.svg`
 `
 
 /**
- * `transform-box: view-box` faz a `transform-origin` ser resolvida contra o
- * viewBox do SVG, e não contra a caixa de cada grupo. Sem isso cada anel giraria
- * em torno do centro do próprio bounding box — que, num arco, não coincide com o
- * centro da circunferência — e a arte se desmontaria.
+ * `transform-box: view-box` resolve a transform-origin contra o viewBox. Sem
+ * isso cada anel giraria em torno do próprio bounding box e a arte se
+ * desmontaria.
  */
 const Ring = styled.g<HeroRingStyleProps>`
   transform-box: view-box;

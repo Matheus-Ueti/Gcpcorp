@@ -4,33 +4,20 @@ import logoGcpcorp from '../../assets/logo-gcpcorp.svg'
 import { CardFrame } from '../CardFrame/CardFrame'
 import { AnalysisIcon, TechnologyIcon, UsersIcon } from '../icons/Icons'
 import { PartnerBadge } from '../PartnerBadge/PartnerBadge'
-import type { BrandAccent, PillarStyleProps } from '../../types'
+import { above, below, PILLAR_COLUMNS } from '../../styles/breakpoints'
+import { accentColor } from '../../utils/style'
+import type { PillarStyleProps } from '../../types'
 
-/**
- * Os três pilares da forma de trabalho, na ordem do layout. Cada um tem uma cor
- * da marca, e a linha entre dois pilares passa de uma cor para a outra.
- */
 const PILLARS = [
   { key: 'analysis', Icon: AnalysisIcon, accent: 'blue' },
   { key: 'technology', Icon: TechnologyIcon, accent: 'green' },
   { key: 'proximity', Icon: UsersIcon, accent: 'yellow' },
 ] as const
 
-/**
- * Altura do logo e do selo Partner, que ficam lado a lado no topo do card. O
- * mínimo é o que ainda cabe numa linha só dentro do card num celular de 360px.
- */
 const LOCKUP_HEIGHT = 'clamp(1.625rem, 3.3vw, 2.625rem)'
 
-/** Espaço entre as colunas dos pilares — a linha de ligação atravessa ele. */
 const PILLAR_GAP = 'clamp(1rem, 2vw, 1.5rem)'
 
-/**
- * "Sobre nós": quem é a GCP Corp e como trabalha.
- *
- * O card começa exatamente onde o hero termina: o anel do hero vaza por cima
- * do fio superior dele, costurando as duas seções numa composição só.
- */
 export function AboutSection() {
   const { t } = useTranslation()
 
@@ -89,11 +76,6 @@ export function AboutSection() {
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
-const accentColor = (accent: BrandAccent) => `var(--color-${accent})`
-
-/* Sem respiro no topo: o card encosta no hero para o anel cruzar o fio. */
 const Section = styled.section`
   padding: 0;
 `
@@ -116,17 +98,12 @@ const Lockup = styled.div`
   margin-bottom: clamp(1.5rem, 3.2vw, 2.5rem);
 `
 
-/** O SVG do logo já vem recortado na caixa do desenho: altura = altura visível. */
 const Logo = styled.img`
   display: block;
   height: ${LOCKUP_HEIGHT};
   width: auto;
 `
 
-/*
- * Mesma escala do hero: no layout, título e texto do card têm os mesmos
- * tamanhos. Em Qurova 600 o título cabe numa linha só na largura do card.
- */
 const Title = styled.h2`
   color: var(--color-text);
   font-size: clamp(1.75rem, 3.57vw, 3.25rem);
@@ -143,7 +120,6 @@ const Highlight = styled.span`
 const Body = styled.div`
   font-size: clamp(1.0625rem, 1.99vw, 1.625rem);
   line-height: 1.4;
-  /* A medida de texto do layout: as linhas quebram nas mesmas palavras. */
   max-width: 35.3em;
 
   p {
@@ -167,18 +143,13 @@ const Pillars = styled.ul`
   margin: clamp(2rem, 4.6vw, 3.75rem) 0 0;
   padding: 0;
 
-  @media (min-width: 860px) {
+  @media ${above(PILLAR_COLUMNS)} {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 `
 
-/*
- * Empilhados (celular e tablet), cada pilar é uma linha: ícone à esquerda e,
- * ao lado dele, título e texto — o texto usa a largura toda em vez de ficar
- * preso na medida curta das colunas do desktop.
- */
 const Pillar = styled.li`
-  @media (max-width: 859px) {
+  @media ${below(PILLAR_COLUMNS)} {
     column-gap: 1rem;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
@@ -190,15 +161,11 @@ const PillarHead = styled.div`
   display: flex;
   gap: 0.75rem;
 
-  @media (max-width: 859px) {
+  @media ${below(PILLAR_COLUMNS)} {
     display: contents;
   }
 `
 
-/**
- * Anel na cor do pilar e ícone num tom um pouco mais fundo da mesma cor — no
- * amarelo, isso é o que mantém o traço fino visível sobre o branco.
- */
 const PillarIcon = styled.span<PillarStyleProps>`
   align-items: center;
   background-color: color-mix(
@@ -220,7 +187,7 @@ const PillarIcon = styled.span<PillarStyleProps>`
     width: 48%;
   }
 
-  @media (max-width: 859px) {
+  @media ${below(PILLAR_COLUMNS)} {
     grid-row: span 2;
   }
 `
@@ -233,20 +200,15 @@ const PillarTitle = styled.h3`
   margin: 0;
   white-space: nowrap;
 
-  @media (max-width: 859px) {
+  @media ${below(PILLAR_COLUMNS)} {
     align-self: end;
   }
 `
 
-/**
- * Linha que liga um pilar ao seguinte: nasce depois do título, atravessa o
- * espaço entre as colunas (margem negativa) e encosta no ícone do próximo,
- * passando da cor de um para a do outro. Só existe com os pilares lado a lado.
- */
 const Connector = styled.span<PillarStyleProps>`
   display: none;
 
-  @media (min-width: 860px) {
+  @media ${above(PILLAR_COLUMNS)} {
     background: linear-gradient(
       to right,
       ${({ $accent }) => accentColor($accent)},
@@ -260,7 +222,6 @@ const Connector = styled.span<PillarStyleProps>`
   }
 `
 
-/* Medida curta e linhas equilibradas: quebra como no layout ("antes de pensar / na solução."). */
 const PillarText = styled.p`
   font-size: clamp(0.9375rem, 1.3vw, 1.0625rem);
   line-height: 1.45;
@@ -268,13 +229,12 @@ const PillarText = styled.p`
   max-width: 12em;
   text-wrap: balance;
 
-  @media (max-width: 859px) {
+  @media ${below(PILLAR_COLUMNS)} {
     margin-top: 0.25rem;
     max-width: 24rem;
   }
 `
 
-/** Fecho do card: duas linhas, a primeira com a frase em destaque. */
 const Closing = styled.p`
   font-size: clamp(1.0625rem, 1.99vw, 1.625rem);
   line-height: 1.4;

@@ -8,10 +8,6 @@ import type {
   RotatingWordStyleProps,
 } from '../../types'
 
-/**
- * As palavras resumem o que as seções anteriores prometem (integração, IA,
- * produtividade e segurança), cada uma com a cor da marca que a representa.
- */
 const WORDS: ContactWord[] = [
   { key: 'connected', accent: 'blue' },
   { key: 'intelligent', accent: 'yellow' },
@@ -19,7 +15,6 @@ const WORDS: ContactWord[] = [
   { key: 'secure', accent: 'red' },
 ]
 
-/** Tempo que cada palavra fica no título, em ms. */
 const WORD_DURATION_MS = 2600
 
 function wordState(index: number, activeIndex: number): RotatingWordState {
@@ -30,15 +25,6 @@ function wordState(index: number, activeIndex: number): RotatingWordState {
   return index === previousIndex ? 'leaving' : 'waiting'
 }
 
-/**
- * Chamada final antes do rodapé: título com uma palavra que se reveza e um
- * texto curto. É o destino do "Contato" do menu e dos botões "Fale com a GCP
- * Corp." do site; e-mail e telefone ficam no rodapé, logo abaixo.
- *
- * Leitores de tela ouvem a frase completa uma vez só; o revezamento visual
- * fica escondido deles para não ser anunciado a cada troca. Com movimento
- * reduzido, a palavra não troca.
- */
 export function ContactSection() {
   const { t } = useTranslation()
   const [activeIndex, setActiveIndex] = useState(0)
@@ -78,8 +64,6 @@ export function ContactSection() {
     </Section>
   )
 }
-
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
 
 const Section = styled.section`
   padding: clamp(4.5rem, 9vw, 7rem) 0;
@@ -122,11 +106,6 @@ const VisuallyHidden = styled.span`
   width: 1px;
 `
 
-/*
- * Uma linha só para a palavra: as palavras ficam empilhadas nela e o corte
- * (overflow) esconde as que estão entrando por baixo e saindo por cima. O
- * respiro embaixo evita cortar a perna do "g" e do "p".
- */
 const WordSlot = styled.span`
   color: var(--color-blue);
   display: block;
@@ -135,11 +114,6 @@ const WordSlot = styled.span`
   position: relative;
 `
 
-/*
- * A da vez sobe de baixo com um leve "quique"; a anterior sobe e some. As que
- * esperam voltam para baixo sem transição — invisíveis, então o salto não
- * aparece — e por isso toda palavra nova entra sempre pelo mesmo lado.
- */
 const WORD_STATES = {
   active: css`
     opacity: 1;
@@ -171,7 +145,6 @@ const Word = styled.span<RotatingWordStyleProps>`
   }
 `
 
-/** Traço sob a palavra, na cor da marca que ela representa. */
 const WordBar = styled.span<AccentStyleProps>`
   background-color: ${({ $accent }) => `var(--color-${$accent})`};
   border-radius: 999px;

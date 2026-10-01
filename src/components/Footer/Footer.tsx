@@ -5,6 +5,7 @@ import { CONTACT_EMAIL, CONTACT_PHONE } from '../../data/contact'
 import { MailIcon, MapPinIcon, PhoneIcon } from '../icons/Icons'
 import { PartnerBadge } from '../PartnerBadge/PartnerBadge'
 import { SocialLinks } from '../SocialLinks/SocialLinks'
+import { above, FOOTER_COLUMNS } from '../../styles/breakpoints'
 import type { IconComponent } from '../../types'
 
 const LINK_GROUPS = [
@@ -26,7 +27,6 @@ const LINK_GROUPS = [
   },
 ] as const
 
-/** E-mail e telefone vêm de `data/contact` (provisórios); a cidade vem das traduções. */
 interface ContactDetail {
   Icon: IconComponent
   key: string
@@ -40,7 +40,6 @@ const CONTACT_DETAILS: ContactDetail[] = [
   { Icon: MapPinIcon, key: 'location', text: null, href: null },
 ]
 
-/** Rodapé institucional: marca, navegação, contato e direitos. */
 export function Footer() {
   const { t } = useTranslation()
   const currentYear = new Date().getFullYear()
@@ -104,13 +103,10 @@ export function Footer() {
         </Bottom>
       </Container>
 
-      {/* Fio nas cores da marca, fechando a página com a identidade Google. */}
       <BrandStripe aria-hidden="true" />
     </Wrapper>
   )
 }
-
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
 
 const Wrapper = styled.footer`
   background-color: var(--color-surface);
@@ -123,15 +119,9 @@ const Container = styled.div`
   padding: clamp(3rem, 7vw, 4rem) var(--layout-gutter) 2rem;
 `
 
-/*
- * Abaixo de 900px: marca e contato ocupam a linha inteira, e as duas colunas
- * de links ficam lado a lado — empilhar tudo deixava o rodapé longo demais no
- * celular.
- */
 const Top = styled.div`
   display: grid;
   gap: 2rem 1.5rem;
-  /* "Soluções" tem os rótulos mais longos: fica com a coluna mais larga. */
   grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
 
   > :first-child,
@@ -139,7 +129,7 @@ const Top = styled.div`
     grid-column: 1 / -1;
   }
 
-  @media (min-width: 900px) {
+  @media ${above(FOOTER_COLUMNS)} {
     gap: 2.5rem;
 
     > :first-child,
@@ -147,7 +137,6 @@ const Top = styled.div`
       grid-column: auto;
     }
 
-    /* A coluna da marca ganha mais espaço que as de links. */
     grid-template-columns: 1.6fr 1fr 1fr 1fr;
   }
 `
@@ -156,7 +145,6 @@ const BrandColumn = styled.div`
   max-width: 22rem;
 `
 
-/** Logo e selo Partner lado a lado, como em todo lugar onde a marca aparece. */
 const Lockup = styled.div`
   align-items: center;
   display: flex;
@@ -247,7 +235,6 @@ const BrandStripe = styled.div`
   display: flex;
   height: 4px;
 
-  /* Quatro faixas iguais, uma por cor da marca. */
   background: linear-gradient(
     to right,
     var(--color-blue) 0 25%,

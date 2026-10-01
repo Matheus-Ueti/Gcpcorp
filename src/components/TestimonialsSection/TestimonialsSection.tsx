@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { below, PHONE } from '../../styles/breakpoints'
+import { accentColor } from '../../utils/style'
 import type {
   AccentStyleProps,
   ActiveStyleProps,
-  BrandAccent,
   FadingTextProps,
   ShowNameProps,
   Testimonial,
@@ -12,16 +13,9 @@ import type {
 } from '../../types'
 
 /**
- * ⚠️ CONTEÚDO DE EXEMPLO — NÃO SÃO CLIENTES REAIS.
- *
- * Os nomes ("Indústria Exemplo") e as falas foram escritos só para mostrar o
- * formato da seção. O "Exemplo" no nome de cada empresa é o que impede que
- * sejam lidos como clientes de verdade: depoimento inventado apresentado como
- * real é propaganda enganosa (CDC, art. 37). Não troque por nomes plausíveis
- * de empresas que não deram depoimento.
- *
- * Ao entrar depoimento real, é preciso autorização por escrito do cliente para
- * usar o nome e a fala.
+ * ⚠️ CONTEÚDO DE EXEMPLO — NÃO SÃO CLIENTES REAIS. Depoimento inventado
+ * apresentado como real é propaganda enganosa (CDC, art. 37): não troque por
+ * nomes plausíveis. Depoimento real exige autorização por escrito do cliente.
  */
 const TESTIMONIALS: Testimonial[] = [
   { key: 'industry', initials: 'IE', accent: 'blue' },
@@ -29,14 +23,8 @@ const TESTIMONIALS: Testimonial[] = [
   { key: 'services', initials: 'SE', accent: 'yellow' },
 ]
 
-/** Quanto o texto antigo leva para sumir antes de o novo entrar, em ms. */
 const FADE_OUT_MS = 200
 
-/**
- * Depoimentos: uma fala grande em destaque e, embaixo, a fileira de clientes.
- * Ao escolher outro, o texto desfoca e some, troca, e volta — um de cada vez,
- * para a leitura não competir com a animação.
- */
 export function TestimonialsSection() {
   const { t } = useTranslation()
   const [activeIndex, setActiveIndex] = useState(0)
@@ -44,7 +32,6 @@ export function TestimonialsSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const timeoutRef = useRef<number>(undefined)
 
-  /* A troca fica pendente num timeout: cancela se a pessoa sair da página. */
   useEffect(() => () => window.clearTimeout(timeoutRef.current), [])
 
   const select = (index: number) => {
@@ -57,7 +44,6 @@ export function TestimonialsSection() {
   }
 
   const shown = TESTIMONIALS[shownIndex]
-  /* Enquanto o escolhido não é o que está na tela, o texto está sumindo. */
   const isFading = activeIndex !== shownIndex
 
   return (
@@ -101,10 +87,6 @@ export function TestimonialsSection() {
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
-const accentColor = (accent: BrandAccent) => `var(--color-${accent})`
-
 const Section = styled.section`
   background-color: var(--color-surface-muted);
   padding: clamp(3.5rem, 7vw, 5.5rem) 0;
@@ -130,11 +112,6 @@ const Eyebrow = styled.h2`
   text-transform: uppercase;
 `
 
-/*
- * As aspas decorativas ficam nos cantos, bem apagadas: dão a moldura de
- * citação sem disputar com o texto. Ficam fora da leitura por serem enfeite —
- * o <blockquote> já diz que é uma citação.
- */
 const QuoteBlock = styled.blockquote`
   margin: 0 0 clamp(2rem, 4vw, 3rem);
   max-width: 34rem;
@@ -163,7 +140,7 @@ const QuoteBlock = styled.blockquote`
     right: -1.5rem;
   }
 
-  @media (max-width: 479px) {
+  @media ${below(PHONE)} {
     &::before,
     &::after {
       display: none;
@@ -171,7 +148,6 @@ const QuoteBlock = styled.blockquote`
   }
 `
 
-/* Some com um leve desfoque e encolhe um tiquinho, como no efeito original. */
 const Quote = styled.p<FadingTextProps>`
   color: var(--color-text-strong);
   font-family: var(--font-display);
@@ -226,10 +202,6 @@ const ClientList = styled.ul`
   padding: 0;
 `
 
-/**
- * Fechado, o botão é só o círculo com as iniciais. Ao ficar ativo — ou sob o
- * mouse — o nome do cliente desliza para fora, e a pílula cresce junto.
- */
 const ClientButton = styled.button<TestimonialButtonProps>`
   align-items: center;
   background-color: ${({ $isActive }) => ($isActive ? 'var(--color-navy)' : 'transparent')};
@@ -263,7 +235,6 @@ const ClientButton = styled.button<TestimonialButtonProps>`
   }
 `
 
-/** Círculo com as iniciais — não há foto, porque não há pessoa real. */
 const Initials = styled.span<AccentStyleProps>`
   align-items: center;
   background-color: color-mix(
@@ -283,10 +254,6 @@ const Initials = styled.span<AccentStyleProps>`
   width: 2.25rem;
 `
 
-/*
- * O nome abre e fecha animando a coluna do grid de 0fr para 1fr: é o que
- * permite a transição suave de uma largura que depende do conteúdo.
- */
 const NameSlot = styled.span<ShowNameProps>`
   display: grid;
   grid-template-columns: ${({ $showName }) => ($showName ? '1fr' : '0fr')};
@@ -301,7 +268,6 @@ const NameSlot = styled.span<ShowNameProps>`
   }
 `
 
-/* Sobre a pílula escura do ativo, o nome fica claro; fora dela, escuro. */
 const Name = styled.span<ActiveStyleProps>`
   color: ${({ $isActive }) => ($isActive ? 'var(--color-surface)' : 'var(--color-text-strong)')};
   font-size: 0.875rem;

@@ -5,12 +5,11 @@ import { CardFrame } from '../CardFrame/CardFrame'
 import { CtaButton } from '../21stdev/CtaButton/CtaButton'
 import { SolutionsOrbit } from '../21stdev/SolutionsOrbit/SolutionsOrbit'
 import { WorkspaceApps } from '../WorkspaceApps/WorkspaceApps'
+import { above, DESKTOP } from '../../styles/breakpoints'
 
 /**
- * Logotipo oficial "Google Workspace". Como o selo Partner, o arquivo vem de
- * fora: basta salvar o SVG oficial em `public/google-workspace.svg`. Até lá,
- * o nome aparece em texto — nunca um logotipo montado à mão, que as diretrizes
- * de marca do Google proíbem.
+ * Logotipo oficial: salve o SVG em `public/google-workspace.svg`. Até lá, o
+ * nome aparece em texto — as diretrizes do Google proíbem logo montado à mão.
  */
 const WORKSPACE_LOGO_SRC = '/google-workspace.svg'
 
@@ -30,11 +29,6 @@ function WorkspaceLogo() {
   )
 }
 
-/**
- * "Nossas soluções": a proposta do ecossistema à esquerda e a órbita de
- * soluções em volta do símbolo da marca à direita; abaixo, os produtos do
- * Google Workspace.
- */
 export function EcosystemSection() {
   const { t } = useTranslation()
 
@@ -65,8 +59,6 @@ export function EcosystemSection() {
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
 const Section = styled.section`
   padding: clamp(4rem, 8vw, 6.5rem) 0 clamp(3.5rem, 7vw, 6rem);
 `
@@ -77,23 +69,18 @@ const Container = styled.div`
   padding: 0 var(--layout-gutter);
 `
 
-/*
- * No desktop a coluna de texto fica um pouco mais larga: o título precisa de
- * ~570px para quebrar em duas linhas, como no layout.
- */
 const Intro = styled.div`
   align-items: center;
   display: grid;
   gap: clamp(2.5rem, 5vw, 4rem);
   grid-template-columns: minmax(0, 1fr);
 
-  @media (min-width: 960px) {
+  @media ${above(DESKTOP)} {
     gap: 2rem;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   }
 `
 
-/* O rótulo acima do título, em caixa alta, como no layout. */
 const Eyebrow = styled.p`
   color: var(--color-text);
   font-size: clamp(0.875rem, 1.45vw, 1.1875rem);
@@ -103,10 +90,6 @@ const Eyebrow = styled.p`
   text-transform: uppercase;
 `
 
-/*
- * Mesma escala dos outros títulos (Qurova 600). A largura em em faz a quebra
- * cair depois de "Tudo", como no layout.
- */
 const Title = styled.h2`
   color: var(--color-text);
   font-size: clamp(1.75rem, 3.57vw, 3.25rem);
@@ -120,7 +103,6 @@ const Highlight = styled.span`
   color: var(--color-blue);
 `
 
-/* Medida que reproduz as quatro linhas do layout ("reunimos" / "que" / "produtividade,"). */
 const Lead = styled.p`
   font-size: clamp(1.0625rem, 1.99vw, 1.625rem);
   line-height: 1.4;
@@ -138,7 +120,6 @@ const WorkspaceCard = styled(CardFrame)`
   flex-direction: column;
   gap: clamp(1.5rem, 3vw, 2.25rem);
   margin-top: clamp(3.5rem, 7vw, 6rem);
-  /* Embaixo, espaço de sobra para o balão com o nome do aplicativo não cruzar a borda. */
   padding: clamp(2rem, 5.3vw, 4.25rem) clamp(1rem, 4vw, 3rem) clamp(3.25rem, 4.6vw, 3.75rem);
 `
 

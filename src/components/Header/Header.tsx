@@ -5,6 +5,7 @@ import logoGcpcorp from '../../assets/logo-gcpcorp.svg'
 import { HomeIcon, LayersIcon, MailIcon, UsersIcon } from '../icons/Icons'
 import { PartnerBadge } from '../PartnerBadge/PartnerBadge'
 import { SocialLinks } from '../SocialLinks/SocialLinks'
+import { above, below, TABLET } from '../../styles/breakpoints'
 import type { Language, LanguageButtonProps, MenuStyleProps } from '../../types'
 
 const LANGUAGES: Language[] = ['pt', 'en', 'es']
@@ -18,16 +19,6 @@ const NAV_ICONS = [
 
 const MENU_ID = 'menu-principal'
 
-/** Mesmo corte do CSS (MOBILE): a partir daqui não existe menu hambúrguer. */
-const DESKTOP_QUERY = '(min-width: 640px)'
-
-/**
- * Cabeçalho fixo: logo, menu principal, redes sociais e troca de idioma.
- *
- * No celular, menu, redes e idiomas vão para um painel que abre pelo botão ☰,
- * logo abaixo do cabeçalho. O painel fecha ao escolher uma seção, ao tocar
- * fora, com Esc ou quando a tela passa a ter largura de desktop.
- */
 export function Header() {
   const { t, i18n } = useTranslation()
   const language = i18n.resolvedLanguage as Language
@@ -51,7 +42,7 @@ export function Header() {
         setIsMenuOpen(false)
       }
     }
-    const desktop = window.matchMedia(DESKTOP_QUERY)
+    const desktop = window.matchMedia(above(TABLET))
     const closeOnDesktop = () => {
       if (desktop.matches) {
         setIsMenuOpen(false)
@@ -131,10 +122,6 @@ export function Header() {
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
-const MOBILE = '(max-width: 639px)'
-
 const Wrapper = styled.header`
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -144,11 +131,8 @@ const Wrapper = styled.header`
 `
 
 /*
- * Logo + selo Partner, menu e ações precisam caber numa linha só na largura de
- * design (container de 1152px), como no layout — em TODOS os idiomas. O mais
- * longo é o espanhol ("Sobre nosotros", "Soluciones", "Contacto"): ao mexer
- * nos espaços do menu e da marca ou nos rótulos, confira o espanhol.
- * Abaixo da largura de design, os grupos quebram linha.
+ * Tudo cabe numa linha só na largura de design (1152px) em TODOS os idiomas; o
+ * mais longo é o espanhol — ao mexer nos espaços ou nos rótulos, confira nele.
  */
 const Container = styled.div`
   align-items: center;
@@ -160,12 +144,11 @@ const Container = styled.div`
   max-width: var(--layout-max-width);
   padding: 0.75rem var(--layout-gutter);
 
-  @media ${MOBILE} {
+  @media ${below(TABLET)} {
     flex-wrap: nowrap;
   }
 `
 
-/** A altura da marca vale para o logo e para o selo Partner ao lado. */
 const BrandArea = styled.div`
   --brand-height: 2rem;
   align-items: center;
@@ -173,7 +156,7 @@ const BrandArea = styled.div`
   flex-shrink: 0;
   gap: 0.75rem;
 
-  @media ${MOBILE} {
+  @media ${below(TABLET)} {
     --brand-height: clamp(1.5rem, 6.8vw, 1.75rem);
     flex-shrink: 1;
     gap: 0.625rem;
@@ -191,26 +174,16 @@ const Brand = styled.a`
   }
 `
 
-/**
- * O SVG do logo foi recortado para a caixa real do desenho (viewBox
- * "127 161 863 197"), então a altura definida aqui é a altura visível da marca.
- */
 const Logo = styled.img`
   display: block;
   height: var(--brand-height);
   width: auto;
 `
 
-/* ── Botão ☰ (só no celular) ─────────────────────────────────────────────── */
-
-/*
- * Três barras de 2px com 4px entre elas (6px de centro a centro). Aberto, a do
- * meio some e as outras duas vão ao centro e giram, formando o X.
- */
 const MenuToggle = styled.button<MenuStyleProps>`
   display: none;
 
-  @media ${MOBILE} {
+  @media ${below(TABLET)} {
     align-items: center;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -263,18 +236,10 @@ const MenuToggle = styled.button<MenuStyleProps>`
   }
 `
 
-/* ── Menu: linha do cabeçalho no desktop, painel no celular ──────────────── */
-
-/*
- * No desktop o invólucro não existe para o layout (display: contents): menu e
- * ações continuam lado a lado no cabeçalho. No celular vira um painel que
- * desce por cima da página, logo abaixo do cabeçalho — por cima, e não
- * empurrando, para a página não "pular" ao abrir.
- */
 const Menu = styled.div<MenuStyleProps>`
   display: contents;
 
-  @media ${MOBILE} {
+  @media ${below(TABLET)} {
     background-color: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
     box-shadow: 0 18px 32px color-mix(in srgb, var(--color-text-strong) 14%, transparent);
@@ -295,17 +260,15 @@ const Menu = styled.div<MenuStyleProps>`
     visibility: ${({ $isOpen }) => ($isOpen ? 'visible' : 'hidden')};
   }
 
-  @media ${MOBILE} and (prefers-reduced-motion: reduce) {
+  @media ${below(TABLET)} and (prefers-reduced-motion: reduce) {
     transition: none;
   }
 `
 
 const Nav = styled.nav`
   /*
-   * Em telas intermediárias o menu rola na horizontal em vez de quebrar a
-   * linha. O min-width zerado é obrigatório: como item de flex, o padrão
-   * (min-width auto) impediria o encolhimento e o menu empurraria a largura da
-   * página inteira, criando rolagem horizontal no site todo.
+   * O min-width zerado é obrigatório: como item de flex, o padrão (auto)
+   * impediria o encolhimento e criaria rolagem horizontal no site todo.
    */
   max-width: 100%;
   min-width: 0;
@@ -316,19 +279,11 @@ const Nav = styled.nav`
     display: none;
   }
 
-  @media ${MOBILE} {
+  @media ${below(TABLET)} {
     overflow: visible;
   }
 `
 
-/**
- * Pílula com relevo, como no layout: brilho claro no topo e borda funda
- * embaixo. O relevo é todo interno (degradê + sombras inset) porque o <Nav>
- * rola na horizontal, e o overflow cortaria uma sombra externa. O padding de
- * baixo é maior para o texto continuar centrado acima da borda.
- *
- * No painel do celular, vira uma lista simples, um item por linha.
- */
 const NavList = styled.ul`
   background: linear-gradient(var(--color-cta-highlight), var(--color-cta-background) 30%);
   border-radius: 999px;
@@ -343,7 +298,7 @@ const NavList = styled.ul`
   padding: 0.375rem 0.375rem 0.5rem;
   width: max-content;
 
-  @media ${MOBILE} {
+  @media ${below(TABLET)} {
     background: none;
     border-radius: 0;
     box-shadow: none;
@@ -375,8 +330,7 @@ const NavLink = styled.a`
     outline-offset: -3px;
   }
 
-  /* No painel: linhas altas (fáceis de tocar), ícone no amarelo da marca. */
-  @media ${MOBILE} {
+  @media ${below(TABLET)} {
     border-radius: 0.75rem;
     color: var(--color-text-strong);
     display: flex;
@@ -410,7 +364,7 @@ const Actions = styled.div`
   flex-shrink: 0;
   gap: 0.75rem;
 
-  @media ${MOBILE} {
+  @media ${below(TABLET)} {
     border-top: 1px solid var(--color-border);
     justify-content: space-between;
     padding: 1rem 0.75rem 0;

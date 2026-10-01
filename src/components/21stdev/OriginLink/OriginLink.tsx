@@ -2,10 +2,6 @@ import { useEffect, useRef, useState, type FocusEvent, type PointerEvent } from 
 import styled from 'styled-components'
 import type { OriginFillGeometry, OriginLinkProps } from '../../../types'
 
-/**
- * Diâmetro do círculo que, centrado em (x, y), cobre o retângulo inteiro: o
- * dobro da distância até o canto mais distante.
- */
 function coverDiameter(width: number, height: number, x: number, y: number) {
   const farthestCorner = Math.max(
     Math.hypot(x, y),
@@ -17,16 +13,6 @@ function coverDiameter(width: number, height: number, x: number, y: number) {
   return Math.ceil(2 * farthestCorner)
 }
 
-/**
- * Link com o efeito "origin": quando o mouse entra (ou o dedo toca), um círculo
- * nasce exatamente no ponto de contato e cresce até cobrir o botão; quando sai,
- * encolhe de volta para o mesmo ponto. Com foco pelo teclado, nasce do centro.
- *
- * Cuida só da mecânica e das camadas. A aparência vem de quem usa, via
- * styled(OriginLink), e a cor do preenchimento pela custom property
- * --origin-fill. O estado fica em data-filled no <a>, para o estilo de fora
- * poder reagir a ele.
- */
 export function OriginLink({
   children,
   onBlur,
@@ -40,11 +26,9 @@ export function OriginLink({
   const [fill, setFill] = useState<OriginFillGeometry>({ x: 0, y: 0, size: 0 })
 
   /*
-   * Enquanto preenchido, recalcula o diâmetro se o botão mudar de tamanho. Isso
-   * acontece de verdade: a fonte da marca termina de carregar e troca a largura
-   * do texto (font-display: swap), ou a janela é redimensionada com o texto em
-   * vw. Sem isso, o círculo — calculado para o tamanho antigo — deixa um fio da
-   * cor de fundo aparecendo na borda.
+   * Recalcula o diâmetro se o botão mudar de tamanho (fonte da marca que
+   * termina de carregar, janela redimensionada): senão o círculo, calculado
+   * para o tamanho antigo, deixa um fio do fundo aparecendo na borda.
    */
   useEffect(() => {
     const node = rootRef.current
@@ -64,7 +48,6 @@ export function OriginLink({
     return () => observer.disconnect()
   }, [isFilled])
 
-  /** Centraliza o círculo em (x, y), relativo ao botão, e dispara o preenchimento. */
   const fillFrom = (rect: DOMRect, x: number, y: number) => {
     setFill({ x, y, size: coverDiameter(rect.width, rect.height, x, y) })
     setIsFilled(true)
@@ -81,7 +64,6 @@ export function OriginLink({
     setIsFilled(false)
   }
 
-  /** Só o foco de teclado preenche: no clique, o ponteiro já cuidou disso. */
   const handleFocus = (event: FocusEvent<HTMLAnchorElement>) => {
     onFocus?.(event)
     if (!event.currentTarget.matches(':focus-visible')) {
@@ -116,10 +98,7 @@ export function OriginLink({
   )
 }
 
-/* ── Estilos ─────────────────────────────────────────────────────────────── */
-
 const Root = styled.a`
-  /* Camadas locais: o círculo fica atrás do texto e não vaza para fora do botão. */
   isolation: isolate;
   overflow: hidden;
   position: relative;
@@ -127,11 +106,6 @@ const Root = styled.a`
   -webkit-tap-highlight-color: transparent;
 `
 
-/**
- * Mesma duração e curva do componente original (0,5s, cubic-bezier(0.16, 1,
- * 0.3, 1)): arranca rápido e desacelera longamente, o que faz o círculo parecer
- * se derramar a partir do ponto de contato.
- */
 const Fill = styled.span`
   background-color: var(--origin-fill, var(--color-navy));
   border-radius: 50%;
