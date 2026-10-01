@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FocusEvent, type PointerEvent } from 'react'
 import styled from 'styled-components'
-import type { OriginFillGeometry, OriginLinkProps } from '../../types'
+import type { OriginFillGeometry, OriginLinkProps } from '../../../types'
 
 /**
  * Diâmetro do círculo que, centrado em (x, y), cobre o retângulo inteiro: o

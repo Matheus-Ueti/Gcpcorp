@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CardFrame } from '../CardFrame/CardFrame'
-import { CtaButton } from '../CtaButton/CtaButton'
-import { SolutionsOrbit } from '../SolutionsOrbit/SolutionsOrbit'
+import { CtaButton } from '../21stdev/CtaButton/CtaButton'
+import { SolutionsOrbit } from '../21stdev/SolutionsOrbit/SolutionsOrbit'
 import { WorkspaceApps } from '../WorkspaceApps/WorkspaceApps'
 
 /**

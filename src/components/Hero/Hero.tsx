@@ -1,7 +1,7 @@
 import { Trans, useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { HeroRings } from '../HeroRings/HeroRings'
-import { CtaButton } from '../CtaButton/CtaButton'
+import { CtaButton } from '../21stdev/CtaButton/CtaButton'
 
 /**
  * Seção de abertura do site: proposta de valor à esquerda e o "Elemento Hero"

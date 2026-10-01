@@ -6,7 +6,7 @@ import migrateImage from '../../assets/journey/migrate.webp'
 import organizeDataImage from '../../assets/journey/organizeData.webp'
 import { AiChipIcon, DatabaseIcon, ServerCloudIcon, ShieldIcon } from '../icons/Icons'
 import { JourneyShowcase } from '../JourneyShowcase/JourneyShowcase'
-import { ProductChips } from '../ProductChips/ProductChips'
+import { ProductChips } from '../21stdev/ProductChips/ProductChips'
 import type {
   ActiveStyleProps,
   BrandAccent,

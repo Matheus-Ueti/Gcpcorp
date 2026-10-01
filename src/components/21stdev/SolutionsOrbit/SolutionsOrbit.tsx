@@ -15,7 +15,7 @@ import {
   NetworkIcon,
   ShieldIcon,
   SparkleIcon,
-} from '../icons/Icons'
+} from '../../icons/Icons'
 import type {
   AccentStyleProps,
   BrandAccent,
@@ -23,7 +23,7 @@ import type {
   OrbitNodeStyleProps,
   OrbitSolution,
   SolutionKey,
-} from '../../types'
+} from '../../../types'
 
 /** Símbolo "g" da marca: o mesmo arquivo do favicon, já recortado só no símbolo. */
 const SYMBOL_SRC = '/favicon.svg'

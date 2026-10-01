@@ -8,14 +8,14 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled, { keyframes } from 'styled-components'
-import { CLOUD_PRODUCT_NAMES } from '../../data/cloudProducts'
+import { CLOUD_PRODUCT_NAMES } from '../../../data/cloudProducts'
 import type {
   AccentStyleProps,
   BrandAccent,
   CloudProductKey,
   ProductChipProps,
   ProductChipsProps,
-} from '../../types'
+} from '../../../types'
 
 /** Distância mínima (px) entre o balão e a borda da tela. */
 const VIEWPORT_MARGIN = 12

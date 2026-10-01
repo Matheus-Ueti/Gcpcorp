@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import type { SparkParticle } from '../../types'
+import type { SparkParticle } from '../../../types'
 
 /**
  * Distância (px) que o mouse precisa percorrer para soltar uma nova faísca. O
