@@ -1,15 +1,33 @@
 import { createGlobalStyle } from 'styled-components'
 
+/*
+ * A DEMO da Qurova desenha os algarismos como um carimbo "personal use only"
+ * em vez do número, então U+0030-0039 sai da cobertura dela: os dígitos caem
+ * na Quicksand e só as letras usam a Qurova.
+ *
+ * Ao instalar a licença comercial (com uso em web) de
+ * https://prioritypeco.com/product/qurova-logo-font/:
+ *   1. substitua os quatro .otf em `public/fonts/qurova/`;
+ *   2. troque QUROVA_LICENSED para true — a Qurova passa a valer também nos
+ *      números e o site fica 100% na mesma tipografia;
+ *   3. apague a linha `public/fonts/qurova/` do .gitignore para versioná-los.
+ */
+const QUROVA_LICENSED = false
+const QUROVA_UNICODE_RANGE = QUROVA_LICENSED
+  ? ''
+  : 'unicode-range: U+0000-002F, U+003A-10FFFF;'
+
 export const GlobalStyle = createGlobalStyle`
   /*
    * Qurova é a versão DEMO (uso pessoal) e fica fora do Git: onde os arquivos
-   * não existirem — como no deploy —, --font-display cai na Quicksand.
+   * não existirem — como no deploy —, a pilha cai na Quicksand.
    */
   @font-face {
     font-display: swap;
     font-family: 'Qurova';
     font-weight: 400;
     src: url('/fonts/qurova/Qurova-Regular.otf') format('opentype');
+    ${QUROVA_UNICODE_RANGE}
   }
 
   @font-face {
@@ -17,6 +35,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Qurova';
     font-weight: 500;
     src: url('/fonts/qurova/Qurova-Medium.otf') format('opentype');
+    ${QUROVA_UNICODE_RANGE}
   }
 
   @font-face {
@@ -24,6 +43,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Qurova';
     font-weight: 600;
     src: url('/fonts/qurova/Qurova-SemiBold.otf') format('opentype');
+    ${QUROVA_UNICODE_RANGE}
   }
 
   @font-face {
@@ -31,6 +51,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Qurova';
     font-weight: 700;
     src: url('/fonts/qurova/Qurova-Bold.otf') format('opentype');
+    ${QUROVA_UNICODE_RANGE}
   }
 
   :root {
@@ -58,8 +79,9 @@ export const GlobalStyle = createGlobalStyle`
     --color-cta-shade: #a87300;
     --color-cta-text: #ffffff;
 
+    /* Qurova em todo o site: títulos e texto corrido usam a mesma pilha. */
     --font-display: 'Qurova', 'Quicksand', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    --font-body: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-body: var(--font-display);
 
     --layout-max-width: 1200px;
     --layout-gutter: 1.5rem;

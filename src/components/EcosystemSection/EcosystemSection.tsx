@@ -6,24 +6,30 @@ import { CtaButton } from '../21stdev/CtaButton/CtaButton'
 import { SolutionsOrbit } from '../21stdev/SolutionsOrbit/SolutionsOrbit'
 import { WorkspaceApps } from '../WorkspaceApps/WorkspaceApps'
 import { above, DESKTOP } from '../../styles/breakpoints'
+import type { BrandLogoProps, BrandLogoStyleProps } from '../../types'
 
 /**
- * Logotipo oficial: salve o SVG em `public/google-workspace.svg`. Até lá, o
- * nome aparece em texto — as diretrizes do Google proíbem logo montado à mão.
+ * Logotipos oficiais: salve os SVGs em `public/`. Até lá, o nome aparece em
+ * texto — as diretrizes do Google proíbem logo montado à mão.
  */
-const WORKSPACE_LOGO_SRC = '/google-workspace.svg'
+const BRAND_LOGOS = {
+  workspace: { src: '/google-workspace.svg', label: 'Google Workspace' },
+  gemini: { src: '/gemini.svg', label: 'Gemini' },
+  cloud: { src: '/google-cloud.svg', label: 'Google Cloud' },
+} as const
 
-function WorkspaceLogo() {
+function BrandLogo({ src, label, size = 'lg' }: BrandLogoProps) {
   const [isAvailable, setIsAvailable] = useState(true)
 
   if (!isAvailable) {
-    return <LogoFallback>Google Workspace</LogoFallback>
+    return <LogoFallback $size={size}>{label}</LogoFallback>
   }
 
   return (
     <LogoImage
-      src={WORKSPACE_LOGO_SRC}
-      alt="Google Workspace"
+      $size={size}
+      src={src}
+      alt={label}
       onError={() => setIsAvailable(false)}
     />
   )
@@ -51,8 +57,13 @@ export function EcosystemSection() {
         </Intro>
 
         <WorkspaceCard>
-          <WorkspaceLogo />
+          <BrandLogo {...BRAND_LOGOS.workspace} />
           <WorkspaceApps />
+
+          <BrandRow>
+            <BrandLogo {...BRAND_LOGOS.gemini} size="md" />
+            <BrandLogo {...BRAND_LOGOS.cloud} size="md" />
+          </BrandRow>
         </WorkspaceCard>
       </Container>
     </Section>
@@ -123,16 +134,29 @@ const WorkspaceCard = styled(CardFrame)`
   padding: clamp(2rem, 5.3vw, 4.25rem) clamp(1rem, 4vw, 3rem) clamp(3.25rem, 4.6vw, 3.75rem);
 `
 
-const LogoImage = styled.img`
+/* Gemini e Google Cloud ficam isolados abaixo da fileira do Workspace. */
+const BrandRow = styled.div`
+  align-items: center;
+  column-gap: clamp(2rem, 6vw, 4.5rem);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: clamp(1rem, 2.4vw, 2rem);
+  row-gap: clamp(1.25rem, 2.4vw, 1.75rem);
+`
+
+const LogoImage = styled.img<BrandLogoStyleProps>`
   display: block;
-  height: clamp(1.75rem, 3.6vw, 2.875rem);
+  height: ${({ $size }) =>
+    $size === 'md' ? 'clamp(1.5rem, 2.9vw, 2.25rem)' : 'clamp(1.75rem, 3.6vw, 2.875rem)'};
   width: auto;
 `
 
-const LogoFallback = styled.p`
+const LogoFallback = styled.p<BrandLogoStyleProps>`
   color: var(--color-text);
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: ${({ $size }) =>
+    $size === 'md' ? 'clamp(1.25rem, 2.4vw, 1.75rem)' : 'clamp(1.5rem, 3vw, 2.25rem)'};
   font-weight: 500;
   margin: 0;
 `

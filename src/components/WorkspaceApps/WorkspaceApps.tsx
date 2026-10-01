@@ -14,7 +14,6 @@ import chatIcon from '../../assets/workspace/chat.svg'
 import docsIcon from '../../assets/workspace/docs.svg'
 import driveIcon from '../../assets/workspace/drive.svg'
 import formsIcon from '../../assets/workspace/forms.svg'
-import geminiIcon from '../../assets/workspace/gemini.png'
 import gmailIcon from '../../assets/workspace/gmail.svg'
 import keepIcon from '../../assets/workspace/keep.svg'
 import meetIcon from '../../assets/workspace/meet.svg'
@@ -23,10 +22,7 @@ import sitesIcon from '../../assets/workspace/sites.svg'
 import slidesIcon from '../../assets/workspace/slides.svg'
 import type { WorkspaceAppProps, WorkspaceProduct, WorkspaceProductKey } from '../../types'
 
-/**
- * Ícones oficiais do CDN do Google. O do Gemini é PNG porque o SVG oficial
- * embute uma imagem de 250 KB.
- */
+/** Ícones oficiais do CDN do Google. */
 const WORKSPACE_PRODUCTS: WorkspaceProduct[] = [
   { key: 'gmail', icon: gmailIcon },
   { key: 'drive', icon: driveIcon },
@@ -35,7 +31,6 @@ const WORKSPACE_PRODUCTS: WorkspaceProduct[] = [
   { key: 'docs', icon: docsIcon },
   { key: 'sheets', icon: sheetsIcon },
   { key: 'slides', icon: slidesIcon },
-  { key: 'gemini', icon: geminiIcon },
   { key: 'forms', icon: formsIcon },
   { key: 'keep', icon: keepIcon },
   { key: 'sites', icon: sitesIcon },

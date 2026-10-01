@@ -120,7 +120,7 @@ const QuoteBlock = styled.blockquote`
   &::before,
   &::after {
     color: color-mix(in srgb, var(--color-text) 12%, transparent);
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: var(--font-display);
     font-size: 5rem;
     line-height: 1;
     pointer-events: none;

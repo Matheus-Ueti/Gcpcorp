@@ -107,7 +107,6 @@ export type WorkspaceProductKey =
   | 'docs'
   | 'sheets'
   | 'slides'
-  | 'gemini'
   | 'forms'
   | 'keep'
   | 'sites'
@@ -117,6 +116,18 @@ export type WorkspaceProductKey =
 export interface WorkspaceProduct {
   key: WorkspaceProductKey
   icon: string
+}
+
+export type BrandLogoSize = 'lg' | 'md'
+
+export interface BrandLogoProps {
+  src: string
+  label: string
+  size?: BrandLogoSize
+}
+
+export interface BrandLogoStyleProps {
+  $size: BrandLogoSize
 }
 
 export type SocialNetworkKey = 'linkedin' | 'instagram'
