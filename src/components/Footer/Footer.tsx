@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import logoGcpcorp from '../../assets/logo-gcpcorp.svg'
-import { CONTACT_EMAIL, CONTACT_PHONE } from '../../data/contact'
+import { CONTACT_ADDRESS, CONTACT_EMAIL, CONTACT_PHONE } from '../../data/contact'
 import { MailIcon, MapPinIcon, PhoneIcon } from '../icons/Icons'
 import { PartnerBadge } from '../PartnerBadge/PartnerBadge'
 import { SocialLinks } from '../SocialLinks/SocialLinks'
@@ -37,7 +37,7 @@ interface ContactDetail {
 const CONTACT_DETAILS: ContactDetail[] = [
   { Icon: MailIcon, key: 'email', ...CONTACT_EMAIL },
   { Icon: PhoneIcon, key: 'phone', ...CONTACT_PHONE },
-  { Icon: MapPinIcon, key: 'location', text: null, href: null },
+  { Icon: MapPinIcon, key: 'location', ...CONTACT_ADDRESS },
 ]
 
 export function Footer() {
